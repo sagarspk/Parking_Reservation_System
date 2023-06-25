@@ -43,13 +43,16 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    #ADDED FRAMEWORKS
     'rest_framework',
     'corsheaders',
+    #ADDED APPS
     'Account.apps.AccountConfig',
+    'Parking.apps.ParkingConfig',
 ]
 
 MIDDLEWARE = [
-    'corsheader.middleware.CorsMiddleware'
+    #'corsheader.middleware.CorsMiddleware'
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -77,7 +80,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'backend.wsgi.application'
+#WSGI_APPLICATION = 'backend.wsgi.application'
 
 
 # Database
