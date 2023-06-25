@@ -1,0 +1,12 @@
+A simple web app to reseve parking spot online.
+
+Features for admin:
+-Add parking location(along with controller).
+-Add number of parking spaces in that location:
+-Generate and store dailly records.
+
+Features for User:
+-View parking spot availability.
+-Reserve parking spot with just one click.
+-Stores user parking history.
+
