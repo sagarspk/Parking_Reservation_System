@@ -82,7 +82,7 @@ TEMPLATES = [
     },
 ]
 
-#WSGI_APPLICATION = 'backend.wsgi.application'
+WSGI_APPLICATION = 'backend.wsgi.application'
 
 
 # Database
@@ -90,7 +90,7 @@ TEMPLATES = [
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'PRS',
         'USER': 'postgres',
         'PASSWORD': 'postgres',
