@@ -115,6 +115,24 @@
   .logout-button:hover {
     background-color: #dc143c; /* Crimson */
   }
+
+  .change-location-button {
+    background-color: #0077cc;
+    color: #fff;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: 10px;
+  }
+  
+  .change-location-button:hover {
+    background-color: #005da3;
+  }
   
   button {
     padding: 10px;
