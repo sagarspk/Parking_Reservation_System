@@ -25,6 +25,12 @@ SECRET_KEY = 'django-insecure-y)nyg==6j#z@w$(2*9!j&4og&l_(q8n5-yyidv^+6qi(%gv)p$
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+
+INTERNAL_IPS = [
+    "127.0.0.1",
+    "localhost",
+]
+
 ALLOWED_HOSTS = []
 
 # CORS_ALLOWED_ORIGINS = [
@@ -48,12 +54,14 @@ INSTALLED_APPS = [
     #ADDED FRAMEWORKS
     'rest_framework',
     'corsheaders',
+    'debug_toolbar',
     #ADDED APPS
     'Account.apps.AccountConfig',
     'Parking.apps.ParkingConfig',
 ]
 
 MIDDLEWARE = [
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -65,6 +73,8 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'backend.urls'
+
+AUTH_USER_MODEL = 'Account.UserModel'
 
 TEMPLATES = [
     {
@@ -92,13 +102,22 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'PRSdb',
+        'NAME': 'PRS',
         'USER': 'postgres',
         'PASSWORD': 'postgres',
         'HOST': 'localhost',
         'PORT': '5432',
     }
 }
+
+# Mail server settings
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'sagarsapkota456@gmail.com'
+EMAIL_HOST_PASSWORD = ''
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
 
 
 # Password validation
