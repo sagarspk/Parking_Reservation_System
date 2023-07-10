@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from rest_framework import APIView
+from rest_framework.views import APIView
 
 
 class Reserve(APIView):
