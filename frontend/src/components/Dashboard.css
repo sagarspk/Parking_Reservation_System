@@ -1,103 +1,186 @@
 .container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 20px;
-  }
-  
-  .title {
-    text-align: center;
-  }
-  
-  .parking-box {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 20px;
-    padding: 20px;
-    background-color: #f5f5f5;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  }
-  
-  .parking-grid {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 20px;
-  }
-  
-  .parking-row {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-  }
-  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.title {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.parking-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+  padding: 20px;
+  background-color: #f5f5f5;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.parking-grid {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.parking-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.parking-space {
+  position: relative;
+  width: 50px;
+  height: 50px;
+  margin: 5px;
+  border-radius: 5px;
+  font-size: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.available {
+  background-color: #3cb371; /* Green */
+}
+
+.unavailable {
+  background-color: #ff4500; /* Red */
+  cursor: default;
+}
+
+.free-button {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  font-size: 12px;
+  padding: 2px 5px;
+  background-color: #3cb371; /* Green */
+  border: 1px solid #2e8b57; /* SeaGreen */
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.selected {
+  border: 2px solid #000;
+}
+
+.bottom-section {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  width: 100%;
+  max-width: 700px;
+}
+
+.reserve-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.selected-space {
+  text-align: center;
+}
+
+.selected-and-reserve {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.reserve-button {
+  background-color: #0077cc;
+  color: #fff;
+}
+
+.reserve-button:hover {
+  background-color: #005da3;
+}
+
+.logout-button {
+  background-color: #ff4500; /* Red */
+}
+
+.logout-button:hover {
+  background-color: #dc143c; /* Crimson */
+}
+
+.change-location-button {
+  background-color: #0077cc;
+  color: #fff;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  margin-left: 10px;
+}
+
+.change-location-button:hover {
+  background-color: #005da3;
+}
+
+button {
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #fff;
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+@media screen and (max-width: 600px) {
   .parking-space {
-    position: relative;
-    width: 50px;
-    height: 50px;
-    margin: 5px;
-    border-radius: 5px;
-    font-size: 16px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    font-size: 14px;
   }
-  
-  .available {
-    background-color: #3cb371; /* Green */
-  }
-  
-  .unavailable {
-    background-color: #ff4500; /* Red */
-    cursor: default;
-  }
-  
+
   .free-button {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    font-size: 12px;
-    padding: 2px 5px;
-    background-color: #3cb371; /* Green */
-    border: 1px solid #2e8b57; /* SeaGreen */
-    border-radius: 5px;
-    cursor: pointer;
+    font-size: 10px;
+    padding: 1px 3px;
   }
-  
-  .selected {
-    border: 2px solid #000;
-  }
-  
-  .bottom-section {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    margin-top: 20px;
-    width: 100%;
-    max-width: 700px;
-  }
-  
-  .reserve-section {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
-  }
-  
+
   .selected-space {
-    text-align: center;
+    display: none;
   }
-  
-  .selected-and-reserve {
-    display: flex;
+
+  .points-section {
+    font-size: 14px;
+  }
+
+  button {
+    font-size: 14px;
+    padding: 8px;
+  }
+
+  .reserve-section {
     flex-direction: column;
     align-items: center;
-    gap: 20px;
+    margin-top: 10px;
   }
+<<<<<<< HEAD
   
   .reserve-button {
     background-color: #0077cc;
@@ -180,3 +263,6 @@
       margin-top: 10px;
     }
   }
+=======
+}
+>>>>>>> 58350f6db307f15d5131d61172a660049e23d8b4
