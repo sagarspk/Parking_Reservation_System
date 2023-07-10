@@ -1,6 +1,6 @@
 from django.core.exceptions import ValidationError
 from django.contrib.auth import get_user_model
-from .models import User
+from .models import Customer, Controller
 
 UserModel=get_user_model()
 
@@ -44,26 +44,30 @@ def controller_register_validation(data):
 
 def login_validation(data):
     
-    # data['username'] = data['username'].strip()
-    # data['email'] = data['email'].strip()
-    # username = data['username']
-    # email = data['email']
-    # password = data['password']
-    
     #Check if either username or email is provided
+    
     # try:
     #     if data['username']:
     #         data['username']=data['username'].strip()
     # except:
     # data['email']=data['email'].strip()
-    if UserModel.objects.filter(email=data['username']).exists():
-        user_obj = UserModel.objects.get(email=data['username'])
-        data['username'] = user_obj.get_username()
+    # if UserModel.objects.filter(email=data['username']).exists():
+    #     user_obj = UserModel.objects.get(email=data['username'])
+    #     data['username'] = user_obj.get_username()
             
-    data['username']=data['username'].strip()       
-    data['password'] = data['password'].strip()
+    # data['username']=data['username'].strip()       
+    # data['password'] = data['password'].strip()
     
-    if not UserModel.objects.filter(username=data['username']).exists():
+    # if not UserModel.objects.filter(username=data['username']).exists():
+    #     raise ValidationError('User does not exists.')
+    # if not data['password'] or len(data['password'])<8:
+    #     raise ValidationError('Password length should be greater than 8.')
+    # return data
+    
+    data['email'] = data['email'].strip()
+    data['password'] = data['password'].strip()
+        
+    if not UserModel.objects.filter(email=data['email']).exists():
         raise ValidationError('User does not exists.')
     if not data['password'] or len(data['password'])<8:
         raise ValidationError('Password length should be greater than 8.')
