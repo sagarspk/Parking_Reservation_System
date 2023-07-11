@@ -67,6 +67,7 @@ function SignUp(props) {
 
   return (
     <div className="page-container">
+      <img src={require("./login.gif")} alt="Signup GIF" className="signup-gif" />
       <div className="signup-box">
         <h1>Parking System Sign Up</h1>
         <form onSubmit={handleSubmit}>

@@ -15,6 +15,7 @@ function ForgotPassword(props) {
 
   return (
     <div className="page-container">
+      <img src={require("./login.gif")} alt="ForgotPassword GIF" className="forgotpassword-gif" />
     <div className="forgot-password-box">
       <h1>Forgot Password</h1>
       <form onSubmit={handleSubmit}>

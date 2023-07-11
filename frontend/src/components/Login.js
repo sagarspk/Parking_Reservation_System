@@ -22,26 +22,27 @@ function Login(props) {
 
   return (
     <div className="page-container">
-    <div className="login-box">
-      <h1> Parking Reservation System</h1>
-      <form onSubmit={handleSubmit}>
-        <label>
-          Email:
-          <input type="email" value={email} onChange={handleEmailChange} />
-        </label>
-        <label>
-          Password:
-          <input type="password" value={password} onChange={handlePasswordChange} />
-        </label>
-        <button type="submit">Login</button>
-        <button onClick={() => props.handlePageChange("forgotPassword")}>
-          Forgot password?
-        </button>
-        <button onClick={() => props.handlePageChange("signUp")}>Sign up</button>
-      </form>
+      <img src={require("./login.gif")} alt="Parking GIF" className="parking-gif" />
+      <div className="login-box">
+        <h1> Parking Reservation System</h1>
+        <form onSubmit={handleSubmit}>
+          <label>
+            Email:
+            <input type="email" value={email} onChange={handleEmailChange} />
+          </label>
+          <label>
+            Password:
+            <input type="password" value={password} onChange={handlePasswordChange} />
+          </label>
+          <button type="submit">Login</button>
+          <button onClick={() => props.handlePageChange("forgotPassword")}>
+            Forgot password?
+          </button>
+          <button onClick={() => props.handlePageChange("signUp")}>Sign up</button>
+        </form>
+      </div>
     </div>
-  </div>
-);
+  );
 }
 
 export default Login;
