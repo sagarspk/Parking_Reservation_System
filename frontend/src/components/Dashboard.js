@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from 'axios';
 import "./Dashboard.css";
 
 function Dashboard(props) {
@@ -10,12 +11,23 @@ function Dashboard(props) {
     [true, true, true, true, true]
   ]);
   const [selectedSpace, setSelectedSpace] = useState(null);
-  const [points, setPoints] = useState(100);
+  const [points, setPoints] = useState();
   const [selectedLocation, setSelectedLocation] = useState(null);
 
-  const handleLogout = () => {
+  const handleLogout = async() => {
+    try{
+      const response = await axios.post('http://localhost:8000/user/logout', {})      
+    console.log(response)
+  }catch(error){
+      alert('Logout Failed')
+      console.error(error)
+    }
     props.handleLogout();
   };
+
+  // const handlePoints=()=>{
+
+  // }
 
   const handleSelectSpace = (rowIndex, spaceIndex) => {
     if (selectedSpace && selectedSpace.rowIndex === rowIndex && selectedSpace.spaceIndex === spaceIndex) {
@@ -24,6 +36,8 @@ function Dashboard(props) {
       setSelectedSpace({ rowIndex, spaceIndex });
     }
   };
+
+
 
   const handleReserveSpace = () => {
     const updatedSpaces = [...parkingSpaces];

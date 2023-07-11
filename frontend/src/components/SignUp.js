@@ -1,10 +1,12 @@
 import React, { useState } from "react";
+import axios from 'axios';
 import './SignUp.css';
 
 function SignUp(props) {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
+  const [address, setAddress] = useState("");
   const [mobileNumber, setMobileNumber] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
@@ -29,11 +31,29 @@ function SignUp(props) {
     setPassword(event.target.value);
   };
 
-  const handleSubmit = (event) => {
+  const handleAddressChange = (event) => {
+    setAddress(event.target.value);
+  };
+
+  const handleSubmit = async(event) => {
     event.preventDefault();
     const errors = validate();
     if (Object.keys(errors).length === 0) {
-      // Implement the sign-up logic here
+      try{
+        const response = await axios.post('http://localhost:8000/user/register', {
+          email:email,
+          password:password,
+          first_name :firstName,
+          last_name : lastName,
+          contact : mobileNumber,
+          address:address
+      })      
+      console.log(response)
+      alert("User Created Successfully")
+      }catch(error){
+        alert('Registration Failed')
+        console.error(error)
+      }
     } else {
       setErrors(errors);
     }
@@ -94,6 +114,11 @@ function SignUp(props) {
             Password:
             <input type="password" value={password} onChange={handlePasswordChange} />
             {errors.password && <span className="error">{errors.password}</span>}
+          </label>
+          <label>
+            Address:
+            <input type="text" value={address} onChange={handleAddressChange} />
+            {errors.address && <span className="error">{errors.address}</span>}
           </label>
           <button type="submit">Sign Up</button>
           <button onClick={() => props.handlePageChange("login")}>Back to Login</button>

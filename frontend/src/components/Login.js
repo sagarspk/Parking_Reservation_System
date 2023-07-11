@@ -1,9 +1,11 @@
 import React, { useState } from "react";
+import axios from 'axios';
 import './Login.css';
 
 function Login(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
 
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
@@ -13,11 +15,20 @@ function Login(props) {
     setPassword(event.target.value);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async(event) => {
     event.preventDefault();
-    // Implement the login logic here
-    // Assuming login is successful, call the handleLogin function
+    try{
+      const response = await axios.post('http://192.168.3.8:8000/user/login', {
+        email:email,
+        password:password
+        })
+    console.log(response.data.user)
+    props.handleUser(response.data.user);
     props.handleLogin();
+    }catch(error){
+      alert('Login Failed')
+      console.error(error)
+    }
   };
 
   return (

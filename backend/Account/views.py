@@ -1,7 +1,8 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
+# from django.core import serializers
 from rest_framework import status
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout,get_user_model
 from .serializers import (UserSerializer,
                           LoginSerializer,
                           UserRegisterSerializer,
@@ -12,11 +13,14 @@ from .validations import (login_validation,
                           controller_register_validation)
 from .sendemail import send_email
 
-
+UserModel = get_user_model()
 
 class UserAuthenticated(APIView):
-    def get(self,request):
-        return request.user.is_authenticated()
+    def post(self,request):
+        user = UserModel.objects.get(email=request.user_id)
+        if(user.is_authenticated):
+            return Response("Authenticated")
+        return Response("User is not Authenticated",status=status.HTTP_403_FORBIDDEN)
 
 
 class UserLogin(APIView):
@@ -27,7 +31,7 @@ class UserLogin(APIView):
             user = authenticate(username=valid_data['email'],password=valid_data['password'])
             if user:
                 login(request, user)
-                return Response('User Logged in Successfully.')
+                return Response({'message':'User Logged in Successfully.','user':user.email})
             else:
                 return Response('Invalid Credentials', status=status.HTTP_401_UNAUTHORIZED)
         else:
