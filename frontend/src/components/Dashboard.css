@@ -10,6 +10,7 @@
   margin-bottom: 20px;
 }
 
+
 .parking-box {
   display: flex;
   flex-direction: column;
@@ -19,6 +20,7 @@
   background-color: #f5f5f5;
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  margin-bottom: 20px;
 }
 
 .parking-grid {
@@ -78,6 +80,7 @@
   justify-content: center;
   align-items: center;
   margin-top: 20px;
+  margin-bottom: 20px;
   width: 100%;
   max-width: 700px;
 }
@@ -150,119 +153,60 @@ button:disabled {
   cursor: default;
 }
 
-@media screen and (max-width: 600px) {
-  .parking-space {
-    width: 40px;
-    height: 40px;
-    font-size: 14px;
-  }
-
-  .free-button {
-    font-size: 10px;
-    padding: 1px 3px;
-  }
-
-  .selected-space {
-    display: none;
-  }
-
-  .points-section {
-    font-size: 14px;
-  }
-
-  button {
-    font-size: 14px;
-    padding: 8px;
-  }
-
-  .reserve-section {
-    flex-direction: column;
-    align-items: center;
-    margin-top: 10px;
-  }
-<<<<<<< HEAD
-  
-  .reserve-button {
-    background-color: #0077cc;
-    color: #fff;
-  }
-  
-  .reserve-button:hover {
-    background-color: #005da3;
-  }
-  
-  .logout-button {
-    background-color: #ff4500; /* Red */
-  }
-  
-  .logout-button:hover {
-    background-color: #dc143c; /* Crimson */
-  }
-
-  .change-location-button {
-    background-color: #0077cc;
-    color: #fff;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    margin-left: 10px;
-  }
-  
-  .change-location-button:hover {
-    background-color: #005da3;
-  }
-  
-  button {
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    font-weight: bold;
-    color: #fff;
-    cursor: pointer;
-  }
-  
-  button:disabled {
-    opacity: 0.5;
-    cursor: default;
-  }
-  
-  @media screen and (max-width: 600px) {
-    .parking-space {
-      width: 40px;
-      height: 40px;
-      font-size: 14px;
-    }
-  
-    .free-button {
-      font-size: 10px;
-      padding: 1px 3px;
-    }
-  
-    .selected-space {
-      display: none;
-    }
-  
-    .points-section {
-      font-size: 14px;
-    }
-  
-    button {
-      font-size: 14px;
-      padding: 8px;
-    }
-  
-    .reserve-section {
-      flex-direction: column;
-      align-items: center;
-      margin-top: 10px;
-    }
-  }
-=======
+.top-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 700px;
+  margin-bottom: 20px;
 }
->>>>>>> 58350f6db307f15d5131d61172a660049e23d8b4
+
+.profile-section {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.profile-picture {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.profile-name {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.profile-dropdown {
+  position:fixed;
+  margin-top: 50px;
+  margin-left: 180px;
+  background-color: white;
+  border: 1px solid black;
+  padding: 10px;
+}
+
+.profile-dropdown ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.profile-dropdown ul li {
+  cursor: pointer;
+  padding: 5px;
+}
+
+.profile-dropdown ul li:hover {
+  background-color: #e6e6e6;
+}
+
+.profile-dropdown.hidden {
+  display: none;
+}

@@ -12,6 +12,7 @@ function Dashboard(props) {
   const [selectedSpace, setSelectedSpace] = useState(null);
   const [points, setPoints] = useState(100);
   const [selectedLocation, setSelectedLocation] = useState(null);
+  const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
 
   const handleLogout = () => {
     props.handleLogout();
@@ -49,10 +50,27 @@ function Dashboard(props) {
     setSelectedSpace(null);
   };
 
+  const handleProfileDropdownClick = () => {
+    setIsProfileDropdownOpen(!isProfileDropdownOpen);
+  };
+
   return (
     <div className="container">
+      <h1 className="title">Parking Reservation System</h1>
       <div className="top-section">
-        <h1 className="title">Parking Reservation System</h1>
+        <div className="profile-section">
+          <img className="profile-picture" src={require("./profile.png")} alt="Profile" />
+          <span className="profile-name" onClick={handleProfileDropdownClick}>John Doe</span>
+          {isProfileDropdownOpen && (
+            <div className="profile-dropdown">
+              <ul>
+                <li>Edit Profile</li>
+                <li>View History</li>
+                <li>Change Password</li>
+              </ul>
+            </div>
+          )}
+        </div>
         <div className="points-section">
           Points: {points}
         </div>
@@ -106,7 +124,7 @@ function Dashboard(props) {
               <option value="Location 2">Location 2</option>
               <option value="Location 3">Location 3</option>
             </select>
-          </div>
+         </div>
         )}
       </div>
       <div className="bottom-section">
