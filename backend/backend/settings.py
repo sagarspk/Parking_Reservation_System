@@ -31,7 +31,9 @@ INTERNAL_IPS = [
     "localhost",
 ]
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    '192.168.3.8','127.0.0.1'
+]
 
 # CORS_ALLOWED_ORIGINS = [
 #     'http://localhost:3000',
