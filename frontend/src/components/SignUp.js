@@ -97,7 +97,6 @@ function SignUp(props) {
             {errors.password && <span className="error">{errors.password}</span>}
           </label>
           <button type="submit">Sign Up</button>
-          <button onClick={() => props.handlePageChange("login")}>Back to Login</button>
         </form>
       </div>
     </div>

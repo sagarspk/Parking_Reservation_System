@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import './Login.css';
+import './ControllerLogin.css';
 
-function Login(props) {
+function ControllerLogin(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -20,10 +20,15 @@ function Login(props) {
     props.handleLogin();
   };
 
+  if (window.location.pathname !== "/controller-login") {
+    return <p>You are not authorized to access this page.</p>;
+  }
+
   return (
     <div className="page-container">
       <img src={require("./login.gif")} alt="Parking GIF" className="parking-gif" />
       <div className="login-box">
+        <h1>Controller Login</h1>
         <form onSubmit={handleSubmit}>
           <label>
             Email:
@@ -34,13 +39,10 @@ function Login(props) {
             <input type="password" value={password} onChange={handlePasswordChange} />
           </label>
           <button type="submit">Login</button>
-          <button onClick={() => props.handlePageChange("forgotPassword")}>
-            Forgot password?
-          </button>
         </form>
       </div>
     </div>
   );
 }
 
-export default Login;
+export default ControllerLogin;
