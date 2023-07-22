@@ -51,7 +51,7 @@ class LoginSerializer(serializers.Serializer):
     #         # return data['email']
     #     return user
 
-class ForgetPasswordSerializer(serializers.ModelSerializer):
+class ForgetPasswordSerializer(serializers.Serializer):
     email = serializers.EmailField()
     
     def Validate_email(self,data):

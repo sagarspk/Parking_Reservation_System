@@ -7,7 +7,7 @@ function SignUp(props) {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [address, setAddress] = useState("");
-  const [mobileNumber, setMobileNumber] = useState("");
+  const [contact, setContact] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
 
@@ -23,8 +23,8 @@ function SignUp(props) {
     setEmail(event.target.value);
   };
 
-  const handleMobileNumberChange = (event) => {
-    setMobileNumber(event.target.value);
+  const handleContact = (event) => {
+    setContact(event.target.value);
   };
 
   const handlePasswordChange = (event) => {
@@ -45,10 +45,10 @@ function SignUp(props) {
           password:password,
           first_name :firstName,
           last_name : lastName,
-          contact : mobileNumber,
+          contact : contact,
           address:address
       })      
-      console.log(response)
+      console.log(response.data)
       alert("User Created Successfully")
       }catch(error){
         alert('Registration Failed')
@@ -72,10 +72,10 @@ function SignUp(props) {
     } else if (!/\S+@\S+\.\S+/.test(email)) {
       errors.email = "Email address is invalid";
     }
-    if (!mobileNumber.trim()) {
-      errors.mobileNumber = "Mobile number is required";
-    } else if (!/^[0-9]{10}$/.test(mobileNumber)) {
-      errors.mobileNumber = "Mobile number is invalid";
+    if (!contact.trim()) {
+      errors.contact = "Mobile number is required";
+    } else if (!/^[0-9]{10}$/.test(contact)) {
+      errors.contact = "Mobile number is invalid";
     }
     if (!password.trim()) {
       errors.password = "Password is required";
@@ -107,9 +107,9 @@ function SignUp(props) {
             {errors.email && <span className="error">{errors.email}</span>}
           </label>
           <label>
-            Mobile Number:
-            <input type="tel" value={mobileNumber} onChange={handleMobileNumberChange} />
-            {errors.mobileNumber && <span className="error">{errors.mobileNumber}</span>}
+            Contact:
+            <input type="tel" value={contact} onChange={handleContact} />
+            {errors.contact && <span className="error">{errors.contact}</span>}
           </label>
           <label>
             Password:

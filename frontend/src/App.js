@@ -1,46 +1,52 @@
 import React, { useEffect,useState } from "react";
+import { Route, Routes, Link } from "react-router-dom";
+import ControllerLogin from "./components/ControllerLogin";
 import Login from "./components/Login";
 import SignUp from "./components/SignUp";
 import ForgotPassword from "./components/ForgotPassword";
 import Dashboard from "./components/Dashboard";
+import OTP from './components/OTP';
+import ChangePassword from './components/ChangePassword'
 import axios from 'axios';
+import apiInstance from "./components/axios";
+import './App.css';
 // import PrsMap from './components/maps'
 
 function App() {
-  const [currentPage, setCurrentPage] = useState("login");
+  const [currentPage, setCurrentPage] = useState('login');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [ user, setUser] = useState('');
+  const [ user, setUser] = useState({});
 
-//   const response = () =>{
-//   try{
-//     const instance = axios.create({baseURL:'http://localhost:8000'})
-//     console.log("Instance created")
-//     return instance
-//   }catch(error){
-//     console.error(error)
-//   }
-// }
+  // isLoggedIn?setCurrentPage('dashboard'):setCurrentPage('login');
+
 
   //Authenication Check
   useEffect(()=>{
     async function handleAuthentication(){
       try{
-        const response =await axios.post('http://localhost:8000/isAuthenticated',{
-          user_id : 'sagarsapkota@gmail.com'
-        })
-        console.log("Authentication checked")
-        console.log(response.data)
-        alert(response.data)
+        const response =await apiInstance.get('user',)
+        if(response.status===200){
+          console.log('User Found')
+          console.log(response.data)
+          setUser(response.data)
+          setIsLoggedIn(true);
+          setCurrentPage('dashboard');
+        }else{
+          console.log('User Not Found')
+        }
+        // console.log("Authentication checked")
+        // console.log(response.data)
+        // alert(response.data)
       }catch(error){
-        console.error(error)
+        // console.error(error)
       }
     };
     handleAuthentication()
   },[]);
 
-  const handleUser=(userModel)=>{
-    setUser(userModel)
-  }
+  // const handleUser=(userModel)=>{
+  //   setUser(userModel)
+  // }
 
   const handlePageChange = (pageName) => {
     setCurrentPage(pageName);
@@ -57,23 +63,81 @@ function App() {
   };
 
   return (
+    // <div>
+      // {currentPage === "login" && (
+      //   <div>
+      //   <Login handlePageChange={handlePageChange} handleLogin={handleLogin} user={user} setUser={setUser} />
+      //   {/* <PrsMap /> */}
+      //   </div>
+      // )}
+      // {currentPage === "signUp" && (
+      //   <SignUp handlePageChange={handlePageChange}/>
+      // )}
+      // {currentPage === "forgotPassword" && (
+      //   <ForgotPassword handlePageChange={handlePageChange} />
+      // )}
+      // {isLoggedIn && currentPage === "dashboard" && (
+      //   <Dashboard handleLogout={handleLogout} user={user} setUser={setUser} />
+      // )}
+      // {currentPage === "otp" && (
+      //   <OTP handlePageChange={handlePageChange} />
+      // )}
+      // {currentPage === "changePassword" && (
+      //   <ChangePassword handlePageChange={handlePageChange} />
+      // )}
+    // </div>
     <div>
-      {currentPage === "login" && (
-        <div>
-        <Login handlePageChange={handlePageChange} handleLogin={handleLogin} handleUser={handleUser} />
-        {/* <PrsMap /> */}
+      <header>
+        <div className="header-left">
+          <h1>Parking Reservation System</h1>
         </div>
-      )}
-      {currentPage === "signUp" && (
-        <SignUp handlePageChange={handlePageChange} />
-      )}
-      {currentPage === "forgotPassword" && (
-        <ForgotPassword handlePageChange={handlePageChange} />
-      )}
-      {isLoggedIn && currentPage === "dashboard" && (
-        <Dashboard handleLogout={handleLogout} />
-      )}
-    </div>
+        <div className="header-right">
+          <Link to="/" className="button" onClick={() => handlePageChange("login")}>
+            Login
+          </Link>
+          <Link to="/" className="button" onClick={() => handlePageChange("signUp")}>
+            Register
+          </Link>
+        </div>
+      </header>
+    <Routes>
+      <Route
+        exact
+        path="/"
+        element={
+          <>
+            {currentPage === "login" && (
+            <Login handlePageChange={handlePageChange} handleLogin={handleLogin} user={user} setUser={setUser} />
+            )}
+            {currentPage === "signUp" && (
+              <SignUp handlePageChange={handlePageChange}/>
+            )}
+            {currentPage === "forgotPassword" && (
+              <ForgotPassword handlePageChange={handlePageChange} />
+            )}
+            {isLoggedIn && currentPage === "dashboard" && (
+              <Dashboard handleLogout={handleLogout} user={user} setUser={setUser} />
+            )}
+            {currentPage === "otp" && (
+              <OTP handlePageChange={handlePageChange} />
+            )}
+            {currentPage === "changePassword" && (
+              <ChangePassword handlePageChange={handlePageChange} />
+            )}
+          </>
+        }
+      />
+      <Route
+        exact
+        path="/controller-login"
+        element={<ControllerLogin handleLogin={handleLogin} />}
+      />
+      <Route
+        path="/change-password"
+        element={<ChangePassword handlePageChange={handlePageChange} />}
+      />
+    </Routes>
+  </div>
   );
 }
 
