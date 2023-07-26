@@ -30,7 +30,7 @@ class Reserve(APIView):
             return Response("User Is not Authenticated",status=status.HTTP_401_UNAUTHORIZED)
         reserve = Reservation(user=user,parking=data['Parking'] ,start_time=datetime.datetime.now(),end_time=None,total_amount=None)
         reserve.save()
-        
+        return Response("Reservation Successfull",status=status.HTTP_201_CREATED)
         
 
     
