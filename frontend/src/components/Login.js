@@ -45,7 +45,7 @@ function Login(props) {
       const response = await axios.post('http://localhost:8000/user/login', {
         email:email,
         password:password,
-        is_staff: false
+        // is_staff: false
         })
       // alert(response.data.user.email)
       if(response.status===200){
