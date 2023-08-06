@@ -5,18 +5,18 @@ from django.conf import settings
 class ParkingSpace(models.Model):
     name    = models.CharField(max_length=30)
     location = models.CharField(max_length=255)
-    price_per_hour = models.DecimalField(max_digits=4,decimal_places=2,default=80.00)
-    is_open = models.BooleanField(False)
-    spot1   = models.BooleanField(False)
-    spot2   = models.BooleanField(False)
-    spot3   = models.BooleanField(False)
-    spot4   = models.BooleanField(False)
-    spot5   = models.BooleanField(False)
-    spot6   = models.BooleanField(False)
-    spot7   = models.BooleanField(False)
-    spot8   = models.BooleanField(False)
-    spot9   = models.BooleanField(False)
-    spot10  = models.BooleanField(False)
+    price_per_hour = models.DecimalField(max_digits=5,decimal_places=2,default=80.00)
+    is_open = models.BooleanField(default=True)
+    spot1   = models.BooleanField(default=False)
+    spot3   = models.BooleanField(default=False)
+    spot2   = models.BooleanField(default=False)
+    spot4   = models.BooleanField(default=False)
+    spot5   = models.BooleanField(default=False)
+    spot6   = models.BooleanField(default=False)
+    spot7   = models.BooleanField(default=False)
+    spot8   = models.BooleanField(default=False)
+    spot9   = models.BooleanField(default=False)
+    spot10  = models.BooleanField(default=False)
     
     def __str__(self):
         return self.name
@@ -24,9 +24,10 @@ class ParkingSpace(models.Model):
 class Reservation(models.Model):
     user = models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     parking_space = models.ForeignKey(ParkingSpace, on_delete=models.CASCADE)
+    spot = models.TextField(null=True)
     start_time = models.DateTimeField()
-    end_time = models.DateTimeField()
-    total_amount = models.DecimalField(max_digits=8, decimal_places=2)
+    end_time = models.DateTimeField(null=True)
+    total_amount = models.DecimalField(max_digits=8, decimal_places=2, null=True)
 
     def __str__(self):
         return f"{self.user.username} - {self.parking_space.name}"

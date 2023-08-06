@@ -7,7 +7,7 @@ from .models import (ParkingSpace,
 class ParkSerializer(serializers.ModelSerializer):
     class Meta:
         model = ParkingSpace
-        field = ['name','location','price_per_hour']
+        field = '__all__'
 
 # class ReservationSericalizer(serializers.ModelSerializer):
 #     class Meta:

@@ -1,6 +1,6 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.authentication import SessionAuthentication
+# from rest_framework.authentication import SessionAuthentication
 # from django.core import serializers
 from rest_framework import status
 from django.contrib.auth import authenticate, login, logout,get_user_model
@@ -26,7 +26,8 @@ class UserAuthenticated(APIView):
                        'lastName':user.last_name,
                        'balance': user.customer.balance,
                        'contact':user.customer.contact,
-                       'address':user.customer.address}
+                       'address':user.customer.address,
+                       'PrimaryKey':user.pk}
             return Response(user_data,status=status.HTTP_200_OK)
         return Response("User is not Authenticated",status=status.HTTP_403_FORBIDDEN)
 
@@ -39,8 +40,8 @@ class UserLogin(APIView):
         if serializer.is_valid():
             user = authenticate(username=valid_data['email'],password=valid_data['password'])
             if user:
-                if(request.data['is_staff']!= user.is_staff):
-                    return Response("Controller Login Detected! Please login through controller login")
+                # if(request.data['is_staff']!= user.is_staff):
+                #     return Response("Controller Login Detected! Please login through controller login")
                 login(request, user)
                 user_data={'email':user.email,
                        'firstName':user.first_name,
