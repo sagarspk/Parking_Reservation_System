@@ -15,7 +15,7 @@ from decimal import Decimal
 class AddParking(APIView):
     def post(self,request):
         data = request.data
-        park_obj = ParkingSpace(name=data['name'],location=data['location'],price_per_hour=data['price_per_hour'])
+        park_obj = ParkingSpace(name=data['name'],location=data['location'],price_per_hour=data['price_per_hour'],is_open=data['open'])
         park_obj.save()
         return Response("Parking space created",status=status.HTTP_201_CREATED)
         # serializer = ParkSerializer(data=request.data)
@@ -91,8 +91,13 @@ class Free(APIView):
 class ViewParking(APIView):
     def get(self,request):
         parking = ParkingSpace.objects.all()
+        park_data=[]
+        for park in parking:
+            park_data.append({'name':park.name,
+                              'location':park.location,
+                              'is_open':park.is_open})
         # queryset = Reservation.objects.all()
-        return 0
+        return Response(park_data,status=status.HTTP_200_OK)
 
 class ViewParkingSpace(APIView):
     def get(self,request,pk):
