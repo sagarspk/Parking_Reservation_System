@@ -20,7 +20,7 @@ function Dashboard(props) {
       localStorage.setItem('refresh_token',null);
       props.setUser({});
       props.handleLogout();
-  }catch(error){
+    }catch(error){
       alert('Logout Failed');
       console.error(error);
     }

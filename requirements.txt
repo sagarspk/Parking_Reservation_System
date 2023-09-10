@@ -1,4 +1,3 @@
-To use this app,you are required to install these modules:
-1. django-rest-framework
-2. django-cors-headers
-3. psycopg2
+django-rest-framework
+django-cors-headers
+psycopg2
