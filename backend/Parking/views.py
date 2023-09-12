@@ -38,7 +38,8 @@ class Reserve(APIView):
         park_obj = ParkingSpace.objects.get(pk=pk)
         # park_obj = get_object_or_404(ParkingSpace,pk)
         
-        spotReservation(park_obj=park_obj,spot=spot,value=True)
+        # spotReservation(park_obj=park_obj,spot=spot,value=True)
+        setattr(park_obj,'spot'+spot,True)
         
         park_obj.save()
         
@@ -56,7 +57,8 @@ class Allocate(APIView):
         
         park_obj = ParkingSpace.objects.get(pk=pk)
         # park_obj = get_object_or_404(ParkingSpace,pk)
-        spotReservation(park_obj=park_obj,spot=spot,value=True)
+        # spotReservation(park_obj=park_obj,spot=spot,value=True)
+        setattr(park_obj,'spot'+spot,True)
         park_obj.save()
         
         reserve = Reservation(user=user,parking_space= park_obj ,spot = spot ,start_time=timezone.now(),end_time=None,total_amount=None)
@@ -76,7 +78,8 @@ class Free(APIView):
         
         spot = reserve_obj.spot
         
-        spotReservation(park_obj=park_obj,spot=spot,value=False)
+        # spotReservation(park_obj=park_obj,spot=spot,value=False)
+        setattr(park_obj,'spot'+spot,False)
         park_obj.save()
         
         reserve_obj.end_time= timezone.now()
@@ -127,8 +130,7 @@ class GenerateReceipt(APIView):
         return 0
 
 
-def spotReservation(park_obj,spot,value):
-    setattr(park_obj,'spot'+spot,value)
+# def spotReservation(park_obj,spot,value):
     # if(spot == "1"):
     #     park_obj.spot1=value
     # elif(spot == "2"):
