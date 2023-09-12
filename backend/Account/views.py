@@ -87,8 +87,8 @@ class ControllerLogin(APIView):
         if serializer.is_valid():
             user = authenticate(username=valid_data['email'],password=valid_data['password'])
             if user:
-                if(request.data['is_staff']!= user.is_staff):
-                    return Response("Controller Login Detected! Please login through controller login")
+                # if(request.data['is_staff']!= user.is_staff):
+                #     return Response("Controller Login Detected! Please login through controller login")
                 login(request, user)
                 return Response('Controller logged in successfully.')
             else:

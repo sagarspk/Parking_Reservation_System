@@ -1,3 +1,7 @@
-django-rest-framework
+Package 	                Name 	                Version
+Django 		                                        4.2.2
+Python 		                                        3.9.2
+debug_toolbar 	            Debug Toolbar 	        4.1.0
+rest_framework 	            Django REST framework 	    3.14.0
+rest_framework_simplejwt 	Rest_Framework_Simplejwt 	5.2.2
 django-cors-headers
-psycopg2
