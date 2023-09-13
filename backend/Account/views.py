@@ -33,7 +33,6 @@ class UserAuthenticated(APIView):
 
 
 class UserLogin(APIView):
-    
     def post(self, request):
         valid_data = login_validation(request.data)
         serializer = LoginSerializer(data=valid_data)
@@ -111,7 +110,6 @@ class ForgetPassword(APIView):
             serializer = ForgetPasswordSerializer(data=request.data)
             if serializer.is_valid():
                 subject = 'Password Recovery'
-                # receiver = 'sagarsapkota2030@gmail.com'
                 recipients = request.data['email']
                 otp = 345566
                 message = 'Please enter the following OTP:'+ str(otp) +' to change you account password'
