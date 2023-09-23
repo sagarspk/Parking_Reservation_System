@@ -6,6 +6,7 @@ class ParkingSpace(models.Model):
     name    = models.CharField(max_length=30)
     location = models.CharField(max_length=255)
     price_per_hour = models.DecimalField(max_digits=5,decimal_places=2,default=80.00)
+    number_of_spot = models.IntegerField
     is_open = models.BooleanField(default=True)
     spot1   = models.BooleanField(default=False)
     spot2   = models.BooleanField(default=False)
@@ -17,6 +18,16 @@ class ParkingSpace(models.Model):
     spot8   = models.BooleanField(default=False)
     spot9   = models.BooleanField(default=False)
     spot10  = models.BooleanField(default=False)
+    spot11  = models.BooleanField(default=False)
+    spot12  = models.BooleanField(default=False)
+    spot13  = models.BooleanField(default=False)
+    spot14  = models.BooleanField(default=False)
+    spot15  = models.BooleanField(default=False)
+    spot16  = models.BooleanField(default=False)
+    spot17  = models.BooleanField(default=False)
+    spot18  = models.BooleanField(default=False)
+    spot19  = models.BooleanField(default=False)
+    spot20  = models.BooleanField(default=False)
     
     def __str__(self):
         return self.name
@@ -24,6 +35,7 @@ class ParkingSpace(models.Model):
 class Reservation(models.Model):
     user = models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     parking_space = models.ForeignKey(ParkingSpace, on_delete=models.CASCADE)
+    vehicle_number = models.TextField
     spot = models.TextField(null=True)
     start_time = models.DateTimeField()
     end_time = models.DateTimeField(null=True)

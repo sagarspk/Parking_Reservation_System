@@ -1,4 +1,5 @@
 import React, { useEffect,useState } from "react";
+import KhaltiCheckout from 'khalti-checkout-web'
 import axios from 'axios';
 import "./Dashboard.css";
 
@@ -7,6 +8,7 @@ function Dashboard(props) {
     [true, true, true, true, true],
     [true, true, true, true, true]
   ]);
+  const [ location, setLocation] = useState([]);
   const [selectedSpace, setSelectedSpace] = useState(null);
   const [balance, setBalance] = useState();
   const [selectedLocation, setSelectedLocation] = useState(null);
@@ -27,6 +29,37 @@ function Dashboard(props) {
 
   };
 
+  const handlePayment=(()=>{
+    let config = {
+      // replace this key with yours
+      "publicKey": "test_public_key_dc74e0fd57cb46cd93832aee0a390234",
+      "productIdentity": "1234567890",
+      "productName": "Drogon",
+      "productUrl": "http://gameofthrones.com/buy/Dragons",
+      "eventHandler": {
+          onSuccess (payload) {
+              // hit merchant api for initiating verfication
+              console.log(payload);
+          },
+          // onError handler is optional
+          onError (error) {
+              // handle errors
+              console.log(error);
+          },
+          onClose () {
+              console.log('widget is closing');
+          }
+      },
+      "paymentPreference": ["KHALTI", "EBANKING","MOBILE_BANKING", "CONNECT_IPS", "SCT"],
+    };
+    const amount = 200;
+    let checkout = new KhaltiCheckout(config);
+    let btn = document.getElementById("payment-button");
+    btn.onclick = function () {
+        // minimum transaction amount must be 10, i.e 1000 in paisa.
+        checkout.show({amount});
+    }
+  })
   const handleBalance=()=>{
     setBalance(props.user.balance);
     // try {
@@ -80,7 +113,7 @@ function Dashboard(props) {
 
   return (
     <div className="container">
-      <h1 className="title">Parking Reservation System</h1>
+      {/* <h1 className="title">Parking Reservation System</h1>
       <div className="top-section">
         <div className="profile-section">
           <img className="profile-picture" src={require("./profile.png")} alt="Profile" />
@@ -98,6 +131,9 @@ function Dashboard(props) {
         <div className="points-section">
           Balance: Rs:{balance}
         </div>
+      </div> */}
+      <div className="payment-container">
+        <button id="payment-button" onClick={handlePayment}>Pay via Khali</button>
       </div>
       <div className="parking-box">
         {selectedLocation ? (
@@ -144,21 +180,14 @@ function Dashboard(props) {
             <label htmlFor="location-select">Select a Parking Location:</label>
             <select id="location-select" onChange={handleSelectLocation}>
               <option value="">--Please choose a location--</option>
-              <option value="Location 1">Location 1</option>
-              <option value="Location 2">Location 2</option>
-              <option value="Location 3">Location 3</option>
+              <option value="Location 1">Labim Mall</option>
+              <option value="Location 2">Kathmandu Mall</option>
+              <option value="Location 3">City Center</option>
             </select>
          </div>
         )}
       </div>
       <div className="bottom-section">
-        {/* <form action="https://uat.esewa.com.np/epay/transrec" method="GET">
-        <input value="100" name="amt" type="hidden">
-        <input value="EPAYTEST" name="scd" type="hidden">
-        <input value="ee2c3ca1-696b-4cc5-a6be-2c40d929d453" name="pid" type="hidden">
-        <input value="000AE01" name="rid" type="hidden">
-        <input value="Submit" type="submit">
-        </form> */}
         <button className="logout-button" onClick={handleLogout}>Logout</button>
       </div>
     </div>
