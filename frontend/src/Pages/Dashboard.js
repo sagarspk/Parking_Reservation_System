@@ -1,4 +1,5 @@
 import React, { useEffect,useState } from "react";
+import ViewParking from "./ViewParking";
 import KhaltiCheckout from 'khalti-checkout-web'
 import axios from 'axios';
 import "./Dashboard.css";
@@ -8,11 +9,11 @@ function Dashboard(props) {
     [true, true, true, true, true],
     [true, true, true, true, true]
   ]);
-  const [ location, setLocation] = useState([]);
+  // const [ parking, setParking] = useState([]);
   const [selectedSpace, setSelectedSpace] = useState(null);
   const [balance, setBalance] = useState();
   const [selectedLocation, setSelectedLocation] = useState(null);
-  const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
+  // const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
 
   const handleLogout = async() => {
     try{
@@ -73,6 +74,9 @@ function Dashboard(props) {
   useEffect(()=>{
     handleBalance();
   },[])
+  // useEffect(()=>{
+  //   handleView();
+  // },[])
 
   const handleSelectSpace = (rowIndex, spaceIndex) => {
     if (selectedSpace && selectedSpace.rowIndex === rowIndex && selectedSpace.spaceIndex === spaceIndex) {
@@ -82,7 +86,18 @@ function Dashboard(props) {
     }
   };
 
-
+  // const handleView= async()=>{
+  //   try{
+  //     const response = await axios.get('http://localhost:8000/view_parking');
+  //     if(response.status===200){
+  //       console.log(response.data[0].name);
+  //       setParking(()=>response.data);
+  //       console.log(parking[0].name);
+  //     }
+  //   }catch(error){
+  //     console.error(error);
+  //   }
+  // }
 
   const handleReserveSpace = () => {
     const updatedSpaces = [...parkingSpaces];
@@ -107,9 +122,9 @@ function Dashboard(props) {
     setSelectedSpace(null);
   };
 
-  const handleProfileDropdownClick = () => {
-    setIsProfileDropdownOpen(!isProfileDropdownOpen);
-  };
+  // const handleProfileDropdownClick = () => {
+  //   setIsProfileDropdownOpen(!isProfileDropdownOpen);
+  // };
 
   return (
     <div className="container">
@@ -133,7 +148,7 @@ function Dashboard(props) {
         </div>
       </div> */}
       <div className="payment-container">
-        <button id="payment-button" onClick={handlePayment}>Pay via Khali</button>
+        <button id="payment-button" onClick={handlePayment}>Pay via Khalti</button>
       </div>
       <div className="parking-box">
         {selectedLocation ? (
@@ -175,17 +190,10 @@ function Dashboard(props) {
               </div>
             </div>
           </div>
-        ) : (
-          <div className="select-location-section">
-            <label htmlFor="location-select">Select a Parking Location:</label>
-            <select id="location-select" onChange={handleSelectLocation}>
-              <option value="">--Please choose a location--</option>
-              <option value="Location 1">Labim Mall</option>
-              <option value="Location 2">Kathmandu Mall</option>
-              <option value="Location 3">City Center</option>
-            </select>
-         </div>
-        )}
+        )
+        :
+        <ViewParking parking={props.parking} handleSelectLocation={handleSelectLocation} />
+        }
       </div>
       <div className="bottom-section">
         <button className="logout-button" onClick={handleLogout}>Logout</button>

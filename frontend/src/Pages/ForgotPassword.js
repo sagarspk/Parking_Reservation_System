@@ -38,7 +38,7 @@ function ForgotPassword(props) {
           Email:
           <input type="email" value={email} onChange={handleEmailChange} />
         </label>
-        <button type="submit">Submit</button>
+        <button type="submit"     >Submit</button>
         <button onClick={() => props.handlePageChange("login")}>Back to Login</button>
       </form>
     </div>
