@@ -1,14 +1,15 @@
 import React, { useEffect,useState } from "react";
 import { Route, Routes, Link } from "react-router-dom";
-import ControllerLogin from "./components/ControllerLogin";
-import Login from "./components/Login";
-import SignUp from "./components/SignUp";
-import ForgotPassword from "./components/ForgotPassword";
-import Dashboard from "./components/Dashboard";
-import OTP from './components/OTP';
-import ChangePassword from './components/ChangePassword'
+import ControllerLogin from "./Pages/ControllerLogin";
+import Login from "./Pages/Login";
+import SignUp from "./Pages/SignUp";
+import ForgotPassword from "./Pages/ForgotPassword";
+import Dashboard from "./Pages/Dashboard";
+import OTP from './Pages/OTP';
+import ChangePassword from './Pages/ChangePassword'
+import Profile from './Pages/Profile'
 import axios from 'axios';
-import apiInstance from "./components/axios";
+import apiInstance from "./Pages/axios";
 import './App.css';
 // import PrsMap from './components/maps'
 
@@ -87,19 +88,39 @@ function App() {
       // )}
     // </div>
     <div>
+      { currentPage != 'profile'?
+      <>
       <header>
         <div className="header-left">
           <h1>Parking Reservation System</h1>
         </div>
         <div className="header-right">
-          <Link to="/" className="button" onClick={() => handlePageChange("login")}>
-            Login
-          </Link>
-          <Link to="/" className="button" onClick={() => handlePageChange("signUp")}>
-            Register
-          </Link>
+          {isLoggedIn ? 
+            <>
+            <div className="points-section">
+              Balance: Rs{user.balance}
+            </div>
+            <Link to="/profile" className="button" onClick={() => handlePageChange("profile")}>
+            <img className="profile-picture" src={require("./Pages/profile.png")} alt="Profile" />
+            {user.firstName+ ' ' + user.lastName}
+            </Link>
+            </>
+            :
+            <>
+            <Link to="/" className="button" onClick={() => handlePageChange("login")}>
+              Login
+            </Link>
+            <Link to="/" className="button" onClick={() => handlePageChange("signUp")}>
+              Register
+            </Link>
+            </>
+          }
         </div>
       </header>
+      </>
+      :
+      <></>
+        }
     <Routes>
       <Route
         exact
@@ -126,6 +147,11 @@ function App() {
             )}
           </>
         }
+      />
+      <Route exact path="/profile" 
+        element={isLoggedIn && currentPage === "profile" &&(
+          <Profile user={user} setUser={setUser} />
+        )}
       />
       <Route
         exact
