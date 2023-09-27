@@ -15,6 +15,7 @@ import './App.css';
 
 function App() {
   const [currentPage, setCurrentPage] = useState('login');
+  const [ parking, setParking] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [ user, setUser] = useState({});
 
@@ -42,12 +43,26 @@ function App() {
         // console.error(error)
       }
     };
-    handleAuthentication()
+    handleAuthentication();
+    handleView();
   },[]);
 
   // const handleUser=(userModel)=>{
   //   setUser(userModel)
   // }
+  
+  const handleView= async()=>{
+    try{
+      const response = await axios.get('http://localhost:8000/view_parking');
+      // console.log(response);
+      if(response.status===200){
+        // console.log(response.data[0].name);
+        setParking(()=>response.data);
+      }
+    }catch(error){
+      console.error(error);
+    }
+  }
 
   const handlePageChange = (pageName) => {
     setCurrentPage(pageName);
@@ -88,7 +103,6 @@ function App() {
       // )}
     // </div>
     <div>
-      { currentPage != 'profile'?
       <>
       <header>
         <div className="header-left">
@@ -104,6 +118,9 @@ function App() {
             <img className="profile-picture" src={require("./Pages/profile.png")} alt="Profile" />
             {user.firstName+ ' ' + user.lastName}
             </Link>
+            <div className="bottom-section">
+              <button className="logout-button" onClick={handleLogout}>Logout</button>
+            </div>
             </>
             :
             <>
@@ -118,9 +135,7 @@ function App() {
         </div>
       </header>
       </>
-      :
-      <></>
-        }
+
     <Routes>
       <Route
         exact
@@ -137,7 +152,7 @@ function App() {
               <ForgotPassword handlePageChange={handlePageChange} />
             )}
             {isLoggedIn && currentPage === "dashboard" && (
-              <Dashboard handleLogout={handleLogout} user={user} setUser={setUser} />
+              <Dashboard handleLogout={handleLogout} user={user} setUser={setUser} parking={parking}/>
             )}
             {currentPage === "otp" && (
               <OTP handlePageChange={handlePageChange} />
@@ -150,7 +165,7 @@ function App() {
       />
       <Route exact path="/profile" 
         element={isLoggedIn && currentPage === "profile" &&(
-          <Profile user={user} setUser={setUser} />
+          <Profile user={user} setUser={setUser} setCurrentPage={setCurrentPage} handlePageChange={handlePageChange} />
         )}
       />
       <Route

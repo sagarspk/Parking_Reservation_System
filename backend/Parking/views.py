@@ -97,6 +97,7 @@ class ViewParking(APIView):
         park_data=[]
         for park in parking:
             park_data.append({'name':park.name,
+                              'id': park.id,
                               'location':park.location,
                               'is_open':park.is_open})
         # queryset = Reservation.objects.all()

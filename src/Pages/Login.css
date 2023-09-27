@@ -45,10 +45,10 @@ body {
   width: 100%;
 }
 
-.login-box button{
+.login-box button {
   padding: 10px;
   background-color: #007bff;
-  color: #fafafa;
+  color: #fff;
   border: none;
   border-radius: 5px;
   margin-top: 20px;
@@ -59,10 +59,9 @@ body {
 
 .login-box button:hover {
   background-color: #0062cc;
-  color : #fafafa
 }
 
-/* .login-box button:last-child {
+.login-box button:last-child {
   margin-top: 10px;
   background-color: transparent;
   color: #007bff;
@@ -71,14 +70,9 @@ body {
 
 .login-box button:last-child:hover {
   text-decoration: underline;
-} */
+}
 
 .parking-gif {
   width: 90%;
   height: 90%;
-}
-
-.link{
-  position: relative;
-  
 }

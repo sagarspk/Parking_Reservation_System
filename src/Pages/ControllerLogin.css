@@ -61,7 +61,7 @@ body {
     background-color: #0062cc;
   }
   
-  /* .login-box button:last-child {
+  .login-box button:last-child {
     margin-top: 10px;
     background-color: transparent;
     color: #007bff;
@@ -70,7 +70,7 @@ body {
   
   .login-box button:last-child:hover {
     text-decoration: underline;
-  } */
+  }
   
   .parking-gif {
     width: 90%;

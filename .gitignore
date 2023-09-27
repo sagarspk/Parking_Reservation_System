@@ -1,3 +1,4 @@
 #ignore virtual environment
 /backend/backend/credentials.py
 /prs_env
+/fe
