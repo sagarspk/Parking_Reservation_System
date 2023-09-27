@@ -1,8 +1,9 @@
 import React, { useEffect,useState } from "react";
 import { useNavigate, redirect  } from "react-router-dom";
 import ViewParking from "./ViewParking";
-import KhaltiCheckout from 'khalti-checkout-web'
+// import KhaltiCheckout from 'khalti-checkout-web'
 import apiInstance from './axios';
+import axios from 'axios';
 import "./Dashboard.css";
 
 function Dashboard(props) {
@@ -14,6 +15,7 @@ function Dashboard(props) {
   ]);
   const [selectedSpace, setSelectedSpace] = useState(null);
   const [balance, setBalance] = useState();
+  const [ reservation, setReservation ] = useState([]);
   const [selectedLocation, setSelectedLocation] = useState(null);
 
   
@@ -36,37 +38,37 @@ function Dashboard(props) {
     }
   }
 
-  const handlePayment=(()=>{
-    let config = {
-      // replace this key with yours
-      "publicKey": "test_public_key_dc74e0fd57cb46cd93832aee0a390234",
-      "productIdentity": "1234567890",
-      "productName": "Drogon",
-      "productUrl": "http://gameofthrones.com/buy/Dragons",
-      "eventHandler": {
-          onSuccess (payload) {
-              // hit merchant api for initiating verfication
-              console.log(payload);
-          },
-          // onError handler is optional
-          onError (error) {
-              // handle errors
-              console.log(error);
-          },
-          onClose () {
-              console.log('widget is closing');
-          }
-      },
-      "paymentPreference": ["KHALTI", "EBANKING","MOBILE_BANKING", "CONNECT_IPS", "SCT"],
-    };
-    const amount = 200;
-    let checkout = new KhaltiCheckout(config);
-    let btn = document.getElementById("payment-button");
-    btn.onclick = function () {
-        // minimum transaction amount must be 10, i.e 1000 in paisa.
-        checkout.show({amount});
-    }
-  })
+  // const handlePayment=(()=>{
+  //   let config = {
+  //     // replace this key with yours
+  //     "publicKey": "test_public_key_dc74e0fd57cb46cd93832aee0a390234",
+  //     "productIdentity": "1234567890",
+  //     "productName": "Drogon",
+  //     "productUrl": "http://gameofthrones.com/buy/Dragons",
+  //     "eventHandler": {
+  //         onSuccess (payload) {
+  //             // hit merchant api for initiating verfication
+  //             console.log(payload);
+  //         },
+  //         // onError handler is optional
+  //         onError (error) {
+  //             // handle errors
+  //             console.log(error);
+  //         },
+  //         onClose () {
+  //             console.log('widget is closing');
+  //         }
+  //     },
+  //     "paymentPreference": ["KHALTI", "EBANKING","MOBILE_BANKING", "CONNECT_IPS", "SCT"],
+  //   };
+  //   const amount = 200;
+  //   let checkout = new KhaltiCheckout(config);
+  //   let btn = document.getElementById("payment-button");
+  //   btn.onclick = function () {
+  //       // minimum transaction amount must be 10, i.e 1000 in paisa.
+  //       checkout.show({amount});
+  //   }
+  // })
   const handleBalance=()=>{
     setBalance(props.user.balance);
     // try {
@@ -77,8 +79,23 @@ function Dashboard(props) {
     //   console.error(error);
     // }
   };
+
+  const handleReservation=async()=>{
+    try{
+      const response = await axios.get('http://localhost:8000/reservation');
+      console.log(response.data);
+      if(response.status===200){
+        setReservation(response.data);
+      }
+    }catch(error){
+      console.log(error);
+    }
+  };
+
+
   useEffect(()=>{
     handleBalance();
+    handleReservation();
   },[])
   // useEffect(()=>{
   //   handleView();
@@ -153,9 +170,9 @@ function Dashboard(props) {
           Balance: Rs:{balance}
         </div>
       </div> */}
-      <div className="payment-container">
+      {/* <div className="payment-container">
         <button id="payment-button" onClick={handlePayment}>Pay via Khalti</button>
-      </div>
+      </div> */}
       <div className="parking-box">
         {selectedLocation ? (
           <div>

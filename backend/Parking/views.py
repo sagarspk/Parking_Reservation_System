@@ -125,7 +125,13 @@ class ViewParkingSpace(APIView):
             return Response(park_data,status=status.HTTP_200_OK)
         else:
             return Response("Login first",status=status.HTTP_401_UNAUTHORIZED)
-
+class ViewReservation(APIView):
+    def get(self,request):
+        reserve_obj = Reservation.objects.get(user_id=request.user.id)
+        reserve_data = [];
+        for reserve in reserve_obj:
+            reserve_data.append({})
+        return Response(reserve_data,status=status.HTTP_200_OK);
 class GenerateReceipt(APIView):
     def post(self,request):
         return 0

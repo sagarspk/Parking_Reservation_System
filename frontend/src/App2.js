@@ -5,8 +5,8 @@ import Login from "./Pages/Login";
 import SignUp from "./Pages/SignUp";
 import ForgotPassword from "./Pages/ForgotPassword";
 import Dashboard from "./Pages/Dashboard";
-import OTP from './Pages/OTP';
-import ChangePassword from './Pages/ChangePassword'
+// import OTP from './Pages/OTP';
+// import ChangePassword from './Pages/ChangePassword'
 import Profile from './Pages/Profile'
 import axios from 'axios';
 import apiInstance from "./Pages/axios";
@@ -117,7 +117,7 @@ function App2() {
         <Route path="/register" element={<SignUp />}/>
         <Route path="/forgotpassword" element={<ForgotPassword />}/>
         <Route path="/dashboard" element={<Dashboard parking={parking} user={user} isLoggedIn={isLoggedIn} />}/>
-        <Route path="/profile" element={<Profile />}/>
+        <Route path="/profile" element={<Profile user={user} />}/>
     </Routes>
   </>
   );
