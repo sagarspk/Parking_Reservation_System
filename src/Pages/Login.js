@@ -2,8 +2,11 @@ import React, { useState } from "react";
 import axios from 'axios';
 import apiInstance from "./axios";
 import './Login.css';
+import { Link,useNavigate } from "react-router-dom";
 
 function Login(props) {
+  const navigate = useNavigate();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   // const [isStaff, setIsStaff] = useState(false);
@@ -18,50 +21,51 @@ function Login(props) {
     setPassword(event.target.value);
   };
 
-  const handleSubmit = async(event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
-    try{
-      const response = await axios.post('http://localhost:8000/token/',{
-        email:email,
-        password:password
+    try {
+      const response = await axios.post('http://localhost:8000/token/', {
+        email: email,
+        password: password
       });
-      if(response.status===200){
+      if (response.status === 200) {
         const access_token = response.data.access;
         const refreshToken = response.data.refresh;
-        localStorage.setItem('access_token',access_token);
-        localStorage.setItem('refresh_token',refreshToken);
-      }else{
+        localStorage.setItem('access_token', access_token);
+        localStorage.setItem('refresh_token', refreshToken);
+      } else {
         console.log(response.data.details);
       }
-    }catch(error){
+    } catch (error) {
       console.error(error);
       console.log('Error at token');
     }
-    
 
 
-    try{
+
+    try {
       const response = await axios.post('http://localhost:8000/user/login', {
-        email:email,
-        password:password,
-        is_staff: false
-        })
+        email: email,
+        password: password,
+        // is_staff: false
+      })
       // alert(response.data.user.email)
-      if(response.status===200){
+      if (response.status === 200) {
         console.log(response.status)
-        const data =response.data
+        const data = response.data
         props.setUser(data)
         // console.log(props.user)
-        props.handleLogin();
-      }else{
+      } else {
         alert("Login Failed")
       }
       // console.log(response.data)
-    }catch(error){
+    } catch (error) {
       console.error(error);
       alert(error);
     }
+    navigate("/dashboard")
+    props.handleLogin();
   };
 
   return (
@@ -87,9 +91,11 @@ function Login(props) {
             <input type="radio" value='Controller' onClick={()=>{setIsStaff(true)}} />
           </label> */}
           <button type="submit">Login</button>
-          <button onClick={() => props.handlePageChange("forgotPassword")}>
-            Forgot password?
-          </button>
+          <Link to="/forgotpassword">
+            <button>
+              Forgot password?
+            </button>
+          </Link>
           {/* <button onClick={() => props.handlePageChange("signUp")}>Sign up</button> */}
         </form>
       </div>

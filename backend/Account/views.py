@@ -33,7 +33,6 @@ class UserAuthenticated(APIView):
 
 
 class UserLogin(APIView):
-    
     def post(self, request):
         valid_data = login_validation(request.data)
         serializer = LoginSerializer(data=valid_data)
@@ -87,8 +86,8 @@ class ControllerLogin(APIView):
         if serializer.is_valid():
             user = authenticate(username=valid_data['email'],password=valid_data['password'])
             if user:
-                if(request.data['is_staff']!= user.is_staff):
-                    return Response("Controller Login Detected! Please login through controller login")
+                # if(request.data['is_staff']!= user.is_staff):
+                #     return Response("Controller Login Detected! Please login through controller login")
                 login(request, user)
                 return Response('Controller logged in successfully.')
             else:
@@ -101,7 +100,7 @@ class ControllerLogin(APIView):
 class Logout(APIView):
     def get(self, request):
         logout(request)
-        return Response('User logged out successfully.')
+        return Response('User logged out successfully.', status= status.HTTP_202_ACCEPTED)
 
 
 
@@ -111,7 +110,6 @@ class ForgetPassword(APIView):
             serializer = ForgetPasswordSerializer(data=request.data)
             if serializer.is_valid():
                 subject = 'Password Recovery'
-                # receiver = 'sagarsapkota2030@gmail.com'
                 recipients = request.data['email']
                 otp = 345566
                 message = 'Please enter the following OTP:'+ str(otp) +' to change you account password'
@@ -151,7 +149,7 @@ class OTP(APIView):
 
 class ChangeForgetPassword(APIView):
     def post(self,request):
-        if(UserModel.objects.filter(email=request.data['email'].exists)):
+        if(UserModel.objects.filter(email=request.data['email']).exists()):
             new_password = request.data['password']
             u = UserModel.objects.get(email=request.data['email'])
             u.set_password(new_password)

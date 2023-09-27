@@ -1,19 +1,21 @@
 import React, { useEffect,useState } from "react";
 import { Route, Routes, Link } from "react-router-dom";
-import ControllerLogin from "./components/ControllerLogin";
-import Login from "./components/Login";
-import SignUp from "./components/SignUp";
-import ForgotPassword from "./components/ForgotPassword";
-import Dashboard from "./components/Dashboard";
-import OTP from './components/OTP';
-import ChangePassword from './components/ChangePassword'
+import ControllerLogin from "./Pages/ControllerLogin";
+import Login from "./Pages/Login";
+import SignUp from "./Pages/SignUp";
+import ForgotPassword from "./Pages/ForgotPassword";
+import Dashboard from "./Pages/Dashboard";
+import OTP from './Pages/OTP';
+import ChangePassword from './Pages/ChangePassword'
+import Profile from './Pages/Profile'
 import axios from 'axios';
-import apiInstance from "./components/axios";
+import apiInstance from "./Pages/axios";
 import './App.css';
 // import PrsMap from './components/maps'
 
 function App() {
   const [currentPage, setCurrentPage] = useState('login');
+  const [ parking, setParking] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [ user, setUser] = useState({});
 
@@ -41,12 +43,26 @@ function App() {
         // console.error(error)
       }
     };
-    handleAuthentication()
+    handleAuthentication();
+    handleView();
   },[]);
 
   // const handleUser=(userModel)=>{
   //   setUser(userModel)
   // }
+  
+  const handleView= async()=>{
+    try{
+      const response = await axios.get('http://localhost:8000/view_parking');
+      // console.log(response);
+      if(response.status===200){
+        // console.log(response.data[0].name);
+        setParking(()=>response.data);
+      }
+    }catch(error){
+      console.error(error);
+    }
+  }
 
   const handlePageChange = (pageName) => {
     setCurrentPage(pageName);
@@ -87,19 +103,39 @@ function App() {
       // )}
     // </div>
     <div>
+      <>
       <header>
         <div className="header-left">
           <h1>Parking Reservation System</h1>
         </div>
         <div className="header-right">
-          <Link to="/" className="button" onClick={() => handlePageChange("login")}>
-            Login
-          </Link>
-          <Link to="/" className="button" onClick={() => handlePageChange("signUp")}>
-            Register
-          </Link>
+          {isLoggedIn ? 
+            <>
+            <div className="points-section">
+              Balance: Rs{user.balance}
+            </div>
+            <Link to="/profile" className="button" onClick={() => handlePageChange("profile")}>
+            <img className="profile-picture" src={require("./Pages/profile.png")} alt="Profile" />
+            {user.firstName+ ' ' + user.lastName}
+            </Link>
+            <div className="bottom-section">
+              <button className="logout-button" onClick={handleLogout}>Logout</button>
+            </div>
+            </>
+            :
+            <>
+            <Link to="/" className="button" onClick={() => handlePageChange("login")}>
+              Login
+            </Link>
+            <Link to="/" className="button" onClick={() => handlePageChange("signUp")}>
+              Register
+            </Link>
+            </>
+          }
         </div>
       </header>
+      </>
+
     <Routes>
       <Route
         exact
@@ -116,7 +152,7 @@ function App() {
               <ForgotPassword handlePageChange={handlePageChange} />
             )}
             {isLoggedIn && currentPage === "dashboard" && (
-              <Dashboard handleLogout={handleLogout} user={user} setUser={setUser} />
+              <Dashboard handleLogout={handleLogout} user={user} setUser={setUser} parking={parking}/>
             )}
             {currentPage === "otp" && (
               <OTP handlePageChange={handlePageChange} />
@@ -126,6 +162,11 @@ function App() {
             )}
           </>
         }
+      />
+      <Route exact path="/profile" 
+        element={isLoggedIn && currentPage === "profile" &&(
+          <Profile user={user} setUser={setUser} setCurrentPage={setCurrentPage} handlePageChange={handlePageChange} />
+        )}
       />
       <Route
         exact
