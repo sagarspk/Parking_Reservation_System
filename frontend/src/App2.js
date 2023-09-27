@@ -12,6 +12,7 @@ import axios from 'axios';
 import apiInstance from "./Pages/axios";
 import './App.css';
 import Header from "./Pages/Header";
+import AddParking from "./Pages/AddParking";
 
 // import {
 //   createBrowserRouter,
@@ -112,6 +113,7 @@ function App2() {
   <>
     <Header user={user} isLoggedIn={ isLoggedIn } handleLogout={handleLogout} />
     <Routes>
+        <Route path="/add-parking" element ={<AddParking />}></Route>
         <Route path="/controller-login" element={<ControllerLogin />}></Route>
         <Route path="/" element={<Login handleLogin={handleLogin} setUser={setUser} />}/>
         <Route path="/register" element={<SignUp />}/>
