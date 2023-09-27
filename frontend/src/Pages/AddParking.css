@@ -1,0 +1,55 @@
+.add-parking-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 2rem;
+}
+
+.add-parking-container h1 {
+  margin-top: 0;
+}
+
+.add-parking-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 50%;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+}
+
+.add-parking-form label {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.add-parking-form input {
+  padding: 10px;
+  border: 1px solid #cccccc;
+  border-radius: 5px;
+  margin-top: 5px;
+  font-size: 16px;
+  outline: none;
+  background-color: #f5f5f5;
+  width: 100%;
+}
+
+.add-parking-form button {
+  padding: 10px;
+  background-color: #007bff;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  margin-top: 20px;
+  font-size: 16px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.add-parking-form button:hover {
+  background-color: #0062cc;
+}
