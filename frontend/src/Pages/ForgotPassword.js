@@ -19,7 +19,6 @@ function ForgotPassword(props) {
       <OTP />
       if(response.status===200){
         console.log(response.data);
-        props.handlePageChange("otp")
       }else{
         console.error(response.data)
       }
@@ -39,7 +38,7 @@ function ForgotPassword(props) {
           <input type="email" value={email} onChange={handleEmailChange} />
         </label>
         <button type="submit"     >Submit</button>
-        <button onClick={() => props.handlePageChange("login")}>Back to Login</button>
+        {/* <button onClick={() => }>Back to Login</button> */}
       </form>
     </div>
   </div>

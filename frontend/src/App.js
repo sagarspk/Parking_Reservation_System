@@ -103,7 +103,6 @@ function App() {
       // )}
     // </div>
     <div>
-      { currentPage !== 'profile'?
       <>
       <header>
         <div className="header-left">
@@ -136,9 +135,7 @@ function App() {
         </div>
       </header>
       </>
-      :
-      <></>
-        }
+
     <Routes>
       <Route
         exact
@@ -168,7 +165,7 @@ function App() {
       />
       <Route exact path="/profile" 
         element={isLoggedIn && currentPage === "profile" &&(
-          <Profile user={user} setUser={setUser} />
+          <Profile user={user} setUser={setUser} setCurrentPage={setCurrentPage} handlePageChange={handlePageChange} />
         )}
       />
       <Route

@@ -100,7 +100,7 @@ class ControllerLogin(APIView):
 class Logout(APIView):
     def get(self, request):
         logout(request)
-        return Response('User logged out successfully.')
+        return Response('User logged out successfully.', status= status.HTTP_202_ACCEPTED)
 
 
 

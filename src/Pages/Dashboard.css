@@ -1,0 +1,218 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.title {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+
+.parking-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+  padding: 20px;
+  background-color: #f5f5f5;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  margin-bottom: 20px;
+}
+
+.parking-grid {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.parking-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.parking-space {
+  position: relative;
+  width: 50px;
+  height: 50px;
+  margin: 5px;
+  border-radius: 5px;
+  font-size: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.available {
+  background-color: #3cb371; /* Green */
+}
+
+.unavailable {
+  background-color: #ff4500; /* Red */
+  cursor: default;
+}
+
+.free-button {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  font-size: 12px;
+  padding: 2px 5px;
+  background-color: #3cb371; /* Green */
+  border: 1px solid #2e8b57; /* SeaGreen */
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.selected {
+  border: 2px solid #000;
+}
+
+.bottom-section {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  width: 100%;
+  max-width: 700px;
+}
+
+.reserve-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.selected-space {
+  text-align: center;
+}
+
+.selected-and-reserve {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.reserve-button {
+  background-color: #0077cc;
+  color: #fff;
+}
+
+.reserve-button:hover {
+  background-color: #005da3;
+}
+
+.logout-button {
+  background-color: #ff4500; /* Red */
+}
+
+.logout-button:hover {
+  background-color: #dc143c; /* Crimson */
+}
+
+.change-location-button {
+  background-color: #0077cc;
+  color: #fff;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  margin-left: 10px;
+}
+
+.change-location-button:hover {
+  background-color: #005da3;
+}
+
+button{
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #fff;
+  cursor: pointer;
+}
+
+#payment-button{
+  border-radius: 20%;
+  background-color: purple;
+
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.top-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 700px;
+  margin-bottom: 20px;
+}
+
+.profile-section {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.profile-picture {
+  width: 30px;
+  height: 30px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.profile-name {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.profile-dropdown {
+  position:fixed;
+  margin-top: 50px;
+  margin-left: 180px;
+  background-color: white;
+  border: 1px solid black;
+  padding: 10px;
+}
+
+.profile-dropdown ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.profile-dropdown ul li {
+  cursor: pointer;
+  padding: 5px;
+}
+
+.profile-dropdown ul li:hover {
+  background-color: #e6e6e6;
+}
+
+.profile-dropdown.hidden {
+  display: none;
+}

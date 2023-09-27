@@ -1,39 +1,34 @@
 import React, { useEffect,useState } from "react";
-import { useNavigate, redirect  } from "react-router-dom";
 import ViewParking from "./ViewParking";
 import KhaltiCheckout from 'khalti-checkout-web'
-import apiInstance from './axios';
+import axios from 'axios';
 import "./Dashboard.css";
 
 function Dashboard(props) {
-
-  const navigate = useNavigate('');
   const [parkingSpaces, setParkingSpaces] = useState([
     [true, true, true, true, true],
     [true, true, true, true, true]
   ]);
+  // const [ parking, setParking] = useState([]);
   const [selectedSpace, setSelectedSpace] = useState(null);
   const [balance, setBalance] = useState();
   const [selectedLocation, setSelectedLocation] = useState(null);
+  // const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
 
-  
-  // useEffect(()=>{
-  //   console.log(props.isLoggedIn);
-  //   console.log(props.user)
-  //   if(props.isLoggedIn===false && props.user=== ({})){
-  //     navigate('/');
-  //     redirect('/');
-  //     // alert(props.isLoggedIn);
-  //   }
-  // },[])
+  const handleLogout = async() => {
+    try{
+      const response = await axios.get('http://localhost:8000/logout')      
+      console.log(response.data)
+      localStorage.setItem('access_token',null);
+      localStorage.setItem('refresh_token',null);
+      props.setUser({});
+      props.handleLogout();
+    }catch(error){
+      alert('Logout Failed');
+      console.error(error);
+    }
 
-  // const handleRequest = ()=>{
-  //   console.log(props.isLoggedIn);
-  //   if(props.isLoggedIn==false && props.user== ({})){
-  //     navigate('/');
-  //     alert(props.isLoggedIn);
-  //   }
-  // }
+  };
 
   const handlePayment=(()=>{
     let config = {
@@ -200,9 +195,9 @@ function Dashboard(props) {
         <ViewParking parking={props.parking} handleSelectLocation={handleSelectLocation} />
         }
       </div>
-      {/* <div className="bottom-section">
+      <div className="bottom-section">
         <button className="logout-button" onClick={handleLogout}>Logout</button>
-      </div> */}
+      </div>
     </div>
   );
 }
