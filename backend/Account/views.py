@@ -149,7 +149,7 @@ class OTP(APIView):
 
 class ChangeForgetPassword(APIView):
     def post(self,request):
-        if(UserModel.objects.filter(email=request.data['email'].exists)):
+        if(UserModel.objects.filter(email=request.data['email']).exists()):
             new_password = request.data['password']
             u = UserModel.objects.get(email=request.data['email'])
             u.set_password(new_password)
