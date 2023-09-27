@@ -17,23 +17,24 @@ function Dashboard(props) {
   const [selectedLocation, setSelectedLocation] = useState(null);
 
   
-  // useEffect(()=>{
-  //   console.log(props.isLoggedIn);
-  //   console.log(props.user)
-  //   if(props.isLoggedIn===false && props.user=== ({})){
-  //     navigate('/');
-  //     redirect('/');
-  //     // alert(props.isLoggedIn);
-  //   }
-  // },[])
+  useEffect(()=>{
+    // console.log(props.isLoggedIn);
+    // console.log(props.user)
+    // if(props.isLoggedIn===false && props.user=== ({})){
+    //   navigate('/');
+    //   redirect('/');
+    //   // alert(props.isLoggedIn);
+    // }
+    handleRequest();
+  },[])
 
-  // const handleRequest = ()=>{
-  //   console.log(props.isLoggedIn);
-  //   if(props.isLoggedIn==false && props.user== ({})){
-  //     navigate('/');
-  //     alert(props.isLoggedIn);
-  //   }
-  // }
+  const handleRequest = ()=>{
+    console.log(props.isLoggedIn);
+    if(props.isLoggedIn==false ){
+      navigate('/');
+      // alert(props.isLoggedIn);
+    }
+  }
 
   const handlePayment=(()=>{
     let config = {

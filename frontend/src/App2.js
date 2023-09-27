@@ -45,6 +45,7 @@ function App2() {
           navigate('/dashboard');
         } else {
           console.log('User Not Found')
+          // navigate('/');
         }
         // console.log("Authentication checked")
         // console.log(response.data)
@@ -75,9 +76,25 @@ function App2() {
     }
   }
 
-//   const handlePageChange = (pageName) => {
-//     setCurrentPage(pageName);
-//   };
+  const handleLogout = async() => {
+    try{
+      const response = await axios.get('http://localhost:8000/logout')      
+    // const response = await apiInstance.get('logout')
+      console.log(response.data)
+      if(response.status === 202){
+        localStorage.setItem('access_token',null);
+        localStorage.setItem('refresh_token',null);
+        console.log("user logged out with null token")
+        setUser({});
+        setIsLoggedIn(false);
+        navigate("/");
+      }
+    }catch(error){
+      alert('Logout Failed');
+      console.error(error);
+    }
+
+};
 
   const handleLogin = () => {
     setIsLoggedIn(true);
@@ -93,8 +110,9 @@ function App2() {
   
   return (
   <>
-    <Header user={user} setUser={setUser} isLoggedIn={ isLoggedIn } setIsLoggedIn={setIsLoggedIn} />
+    <Header user={user} isLoggedIn={ isLoggedIn } handleLogout={handleLogout} />
     <Routes>
+        <Route path="/controller-login" element={<ControllerLogin />}></Route>
         <Route path="/" element={<Login handleLogin={handleLogin} setUser={setUser} />}/>
         <Route path="/register" element={<SignUp />}/>
         <Route path="/forgotpassword" element={<ForgotPassword />}/>

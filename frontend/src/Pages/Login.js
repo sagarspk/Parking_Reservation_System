@@ -94,7 +94,9 @@ function Login(props) {
             Controller:
             <input type="radio" value='Controller' onClick={()=>{setIsStaff(true)}} />
           </label> */}
-          <button type="submit" className="login-box input">Login</button>
+          <div >
+            <button type="submit" >Login</button>
+          </div>
         </form>
           {/* <button onClick={() => handleForgetPassword}>
             Forgot password?

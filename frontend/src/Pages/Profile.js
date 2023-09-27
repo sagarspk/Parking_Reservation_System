@@ -1,9 +1,9 @@
 import React from 'react';
-import {Link, useNavigate, useLocation } from 'react-router-dom';
+import {Link, useNavigate } from 'react-router-dom';
 
 function Profile(props) {
   const navigate = useNavigate();
-  const location = useLocation();
+  // const location = useLocation();
   
 
   return (

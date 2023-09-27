@@ -1,43 +1,13 @@
-import React, { useEffect, useState } from "react";
-import { Route, Routes, Link, useNavigate } from "react-router-dom";
-// import ControllerLogin from "./Pages/ControllerLogin";
-// import Login from "./Pages/Login";
-// import SignUp from "./Pages/SignUp";
-// import ForgotPassword from "./Pages/ForgotPassword";
-// import Dashboard from "./Pages/Dashboard";
-// import OTP from './Pages/OTP';
-// import ChangePassword from './Pages/ChangePassword'
-// import Profile from './Pages/Profile'
-// import axios from 'axios';
-import apiInstance from "./axios";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import '../App.css';
-
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-
-
+import { useEffect } from "react";
 
 function Header(props) {
 
     const navigate = useNavigate('');
-    const handleLogout = async() => {
-        try{
-        //   const response = await axios.get('http://localhost:8000/logout')      
-        const response = await apiInstance.get('logout')
-          console.log(response.data)
-          if(response.status === 202){
-            localStorage.setItem('access_token',null);
-            localStorage.setItem('refresh_token',null);
-            console.log("user logged out with null token")
-            props.setUser({});
-            props.setIsLoggedIn(false);
-            navigate("/");
-          }
-        }catch(error){
-          alert('Logout Failed');
-          console.error(error);
-        }
-    
-      };
+    const location = useLocation();
+    console.log(location.pathname);
+
 
     return (
         <>
@@ -56,14 +26,17 @@ function Header(props) {
                                 {props.user.firstName + ' ' + props.user.lastName}
                             </Link>
                             <div className="bottom-section">
-                                <button className="logout-button" onClick={handleLogout}>Logout</button>
+                                <button className="logout-button" onClick={props.handleLogout}>Logout</button>
                             </div>
                             
                         </>
                         :
                         <>
                             <Link to="/" className="button">
-                                Login
+                                Home
+                            </Link>
+                            <Link to="/" className="button">
+                                About Us
                             </Link>
                             <Link to="/register" className="button">
                                 Register
