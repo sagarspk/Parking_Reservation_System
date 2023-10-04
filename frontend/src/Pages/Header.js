@@ -1,6 +1,6 @@
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import '../App.css';
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 function Header(props) {
 
@@ -21,7 +21,7 @@ function Header(props) {
                             <div className="points-section">
                                 Balance: Rs{props.user.balance}
                             </div>
-                            <Link to="/profile" className="button">
+                            <Link to="/profile" className="button" >
                                 <img className="profile-picture" src={require("./profile.png")} alt="Profile" />
                                 {props.user.firstName + ' ' + props.user.lastName}
                             </Link>

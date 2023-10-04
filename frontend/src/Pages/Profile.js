@@ -1,14 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
+import axios from 'axios';
 import KhaltiCheckout from 'khalti-checkout-web'
 import "./Profile.css";
 import { Link, useNavigate } from 'react-router-dom';
 
 function Profile(props) {
   const navigate = useNavigate();
-  const [ amount, setAmount ] = useState();
+  const [ paisa, setPaisa ] = useState();
+  // const [ reservation,setReservation ]  = useState({});
 
   const handleAmountChange=(event)=>{
-    setAmount(event.target.value);
+    setPaisa(event.target.value);
+  }
+
+
+  useEffect(()=>{
+    handleRequest();
+  })
+  const handleRequest = ()=>{
+    console.log(props.isLoggedIn);
+    if(props.isLoggedIn===false ){
+      navigate('/');
+      // alert(props.isLoggedIn);
+    }
   }
 
   const handlePayment=(()=>{
@@ -20,7 +34,14 @@ function Profile(props) {
       "productUrl": "http://gameofthrones.com/buy/Dragons",
       "eventHandler": {
           onSuccess (payload) {
-              // hit merchant api for initiating verfication
+              try{
+                const response = axios.put('http://localhost:8000/user/load',{
+                  "id":props.user.id,
+                  "balance":paisa
+                })
+              }catch(error){
+                console.error("balance load failed")
+              }
               console.log(payload);
           },
           // onError handler is optional
@@ -34,6 +55,7 @@ function Profile(props) {
       },
       "paymentPreference": ["KHALTI", "EBANKING","MOBILE_BANKING", "CONNECT_IPS", "SCT"],
     };
+     let amount = paisa*100;
     let checkout = new KhaltiCheckout(config);
     let btn = document.getElementById("payment-button");
     btn.onclick = function () {
@@ -43,13 +65,11 @@ function Profile(props) {
   })
 
   return (
+    <>
+    { props.isLoggedIn ?
+      (
     <div className="profile-container">
       <h1>Profile Page</h1>
-      {/* <div>
-        <Link to="/dashboard" className="button" onClick={() => navigate('/dashboard')}>
-          Back
-        </Link>
-      </div> */}
       <div className="profile-details">
         <h2>{props.user.firstName+ ' ' + props.user.lastName}</h2>
         <p>Email  : {props.user.email} </p>
@@ -59,7 +79,7 @@ function Profile(props) {
       <div className="payment-container">
         <label>
           Amount:
-          <input type="number" value={amount} onChange={handleAmountChange} />
+          <input type="number" value={paisa} onChange={handleAmountChange} />
         </label>
         <button id="payment-button" onClick={handlePayment}>Pay via Khalti</button>
       </div>
@@ -76,18 +96,21 @@ function Profile(props) {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>2023-09-25</td>
-            <td>12345</td>
+          {props.reservation.map((reserve)=> <tr key={reserve.ID}>
+            <td>{reserve.Date}</td>
+            <td>{reserve.ID}</td>
             <td></td>
-            <td>Booking details...</td>
-            <td></td>
-            <td></td>
-          </tr>
-          {/* Add more rows for additional booking history */}
+            <td>{reserve.Location}</td>
+            <td>{reserve.Duration}</td>
+            <td>{reserve.Amount}</td>
+          </tr>)}
         </tbody>
       </table>
-    </div>
+    </div>)
+    :
+    navigate('/')
+    }
+    </>
   );
 }
 

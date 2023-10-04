@@ -24,10 +24,13 @@ function App2() {
   
   const navigate = useNavigate('');
 
-  const [currentPage, setCurrentPage] = useState('login');
+  // const [currentPage, setCurrentPage] = useState('login');
   const [parking, setParking] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState({});
+  const [ reservation, setReservation]= useState({});
+  const [ parkingSpaces, setParkingSpaces ] = useState({});
+  const [ selectedLocation, setSelectedLocation] = useState('');
 
   // isLoggedIn?setCurrentPage('dashboard'):setCurrentPage('login');
 
@@ -57,8 +60,12 @@ function App2() {
     };
     handleAuthentication();
     handleView();
+    // handleParkingSpaces();
   }, []);
-
+  // useEffect(()=>{
+  //   handleReservation();
+  // })
+  
 
   // const handleUser=(userModel)=>{
   //   setUser(userModel)
@@ -67,7 +74,7 @@ function App2() {
   const handleView = async () => {
     try {
       const response = await axios.get('http://localhost:8000/view_parking');
-      // console.log(response);
+      console.log(response.data);
       if (response.status === 200) {
         // console.log(response.data[0].name);
         setParking(() => response.data);
@@ -77,10 +84,37 @@ function App2() {
     }
   }
 
+  const handleParkingSpaces= async(value)=>{
+    // setSelectedLocation(event.target.value);
+    try{
+      const response = await axios.get(`http://localhost:8000/view_parking_space/${value}`);
+      console.log(response.data);
+      if(response.status===200){
+        setParkingSpaces(()=>response.data);
+      }
+    }catch(error){
+      console.error(error);
+
+    }
+  }
+
+  // const handleReservation=async()=>{
+  //   try{
+  //     console.log(user.id);
+  //     const response = await axios.get(`http://localhost:8000/view_reservation/9`);
+  //     console.log(response.data);
+  //     if(response.status===200){
+  //       setReservation(response.data);
+  //     }
+  //   }catch(error){
+  //     console.log(error);
+  //   }
+  // };
+
   const handleLogout = async() => {
     try{
       const response = await axios.get('http://localhost:8000/logout')      
-    // const response = await apiInstance.get('logout')
+      // const response = await apiInstance.get('logout')
       console.log(response.data)
       if(response.status === 202){
         localStorage.setItem('access_token',null);
@@ -118,8 +152,8 @@ function App2() {
         <Route path="/" element={<Login handleLogin={handleLogin} setUser={setUser} />}/>
         <Route path="/register" element={<SignUp />}/>
         <Route path="/forgotpassword" element={<ForgotPassword />}/>
-        <Route path="/dashboard" element={<Dashboard parking={parking} user={user} isLoggedIn={isLoggedIn} />}/>
-        <Route path="/profile" element={<Profile user={user} />}/>
+        <Route path="/dashboard" element={<Dashboard parking={parking} user={user} isLoggedIn={isLoggedIn} setReservation={setReservation} parkingSpaces={parkingSpaces} selectedLocation={selectedLocation} setSelectedLocation={setSelectedLocation} handleParkingSpaces={handleParkingSpaces} />}/>
+        <Route path="/profile" element={<Profile user={user} reservation={reservation} isLoggedIn={isLoggedIn} />}/>
     </Routes>
   </>
   );

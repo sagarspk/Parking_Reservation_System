@@ -2,7 +2,7 @@ import React from 'react';
 import { MapContainer, TileLayer, Marker } from 'react-leaflet';
 
 const PrsMap = () => {
-  const center = [27.7172, 85.3240]; // Coordinates for Kathmandu, Nepal
+  const center = [27.7172, 85.3240];
 
   return (
     <MapContainer center={center} zoom={13} style={{ height: '400px', width: '100%' }}>
