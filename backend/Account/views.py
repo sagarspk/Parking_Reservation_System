@@ -14,6 +14,7 @@ from .validations import (login_validation,
                           controller_register_validation)
 from .sendemail import send_email
 from .models import Customer,Controller
+from decimal import Decimal
 
 UserModel = get_user_model()
 
@@ -21,16 +22,30 @@ class UserAuthenticated(APIView):
     def get(self,request):
         user = request.user
         if(user.is_authenticated):
-            user_data={'email':user.email,
+            user_data={'id':user.id,
+                       'rid':user.customer.reservation_id,
+                       'email':user.email,
                        'firstName':user.first_name,
                        'lastName':user.last_name,
                        'balance': user.customer.balance,
                        'contact':user.customer.contact,
-                       'address':user.customer.address,
-                       'PrimaryKey':user.pk}
+                       'address':user.customer.address}
             return Response(user_data,status=status.HTTP_200_OK)
-        return Response("User is not Authenticated",status=status.HTTP_403_FORBIDDEN)
+        return Response("User is not Authenticated",status=status.HTTP_401_UNAUTHORIZED)
 
+class UserReserve(APIView):
+    def put(self,request):
+        customer_obj = Customer.objects.get(user_id = request.data['uid'])
+        customer_obj.reservation_id= request.data['rid']
+        customer_obj.save()
+        return Response("Reservation Id set to user",status=status.HTTP_200_OK)
+
+class UserFree(APIView):
+    def patch(self,request):
+        customer_obj = Customer.objects.get(user_id = request.data['uid'])
+        customer_obj.reservation_id= None
+        customer_obj.save()
+        return Response("Reservation Id reset from user",status=status.HTTP_200_OK)
 
 class UserLogin(APIView):
     def post(self, request):
@@ -42,12 +57,13 @@ class UserLogin(APIView):
                 # if(request.data['is_staff']!= user.is_staff):
                 #     return Response("Controller Login Detected! Please login through controller login")
                 login(request, user)
-                user_data={'email':user.email,
-                       'firstName':user.first_name,
-                       'lastName':user.last_name,
-                       'balance': user.customer.balance,
-                       'contact':user.customer.contact,
-                       'address':user.customer.address}
+                user_data={'id':user.id,
+                           'email':user.email,
+                           'firstName':user.first_name,
+                           'lastName':user.last_name,
+                            'balance': user.customer.balance,
+                            'contact':user.customer.contact,
+                            'address':user.customer.address}
                 # return Response(user_data,content_type='application/json',status=status.HTTP_200_OK)
                 return Response(user_data , status=status.HTTP_200_OK)
             else:
@@ -64,7 +80,7 @@ class UserRegister(APIView):
 			user = serializer.create(valid_data)
 			if user:
 				return Response('User created Successfully', status=status.HTTP_201_CREATED)
-		return Response("USer Registered successfully",status=status.HTTP_400_BAD_REQUEST)
+		return Response("User Registration Failed",status=status.HTTP_400_BAD_REQUEST)
 
 
 class ControllerRegister(APIView):
@@ -75,9 +91,23 @@ class ControllerRegister(APIView):
 			user = serializer.create(valid_data)
 			if user:
 				return Response('Controller Created Successfully', status=status.HTTP_201_CREATED)
-		return Response('USer Registered successfully',status=status.HTTP_400_BAD_REQUEST)
+		return Response('Controller Regisration failed',status=status.HTTP_400_BAD_REQUEST)
 
 
+class LoadBalance(APIView):
+    def put(self,request):
+        user_obj= Customer.objects.get(user = request.data['id'])
+        user_obj.balance =user_obj.balance + Decimal(request.data['balance'])
+        user_obj.save()
+        return Response("Balance Updated",status=status.HTTP_200_OK)
+        
+
+class UnloadBalance(APIView):
+    def put(self,request):
+        user_obj = Customer.objects.get(user = request.data['id'])
+        user_obj.balance = user_obj.balance - request.data['balance']
+        user_obj.save()
+        return Response("Amount Charged",status=status.HTTP_200_OK)
 
 class ControllerLogin(APIView):
     def post(self, request):

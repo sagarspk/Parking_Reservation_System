@@ -9,11 +9,19 @@ from .views import (UserLogin,
                     ForgetPassword,
                     ChangePassword,
                     OTP,
-                    ChangeForgetPassword)
+                    ChangeForgetPassword,
+                    UserReserve,
+                    UserFree,
+                    LoadBalance,
+                    UnloadBalance)
 
 urlpatterns = [
     path('user', UserAuthenticated.as_view(), name='userAuthCheck'),
     path('user/login', UserLogin.as_view(), name='userLogin'),
+    path('user/load',LoadBalance.as_view()),
+    path('user/unload',UnloadBalance.as_view()),
+    path('user/reserve', UserReserve.as_view(), name='userreserve'),
+    path('user/free', UserFree.as_view(), name='userreserve'),
     path('user/register', UserRegister.as_view(), name='userRegister'),
     path('controller/login', ControllerLogin.as_view(), name='controllerView'),
     path('controller/register', ControllerRegister.as_view(), name='conrollerRegister'),
