@@ -1,5 +1,5 @@
 import React, { useEffect,useState } from "react";
-import { useNavigate, redirect, Link  } from "react-router-dom";
+import { useNavigate, redirect, Link, useLocation  } from "react-router-dom";
 import ViewParking from "./ViewParking";
 // import KhaltiCheckout from 'khalti-checkout-web'
 import apiInstance from './axios';
@@ -9,16 +9,17 @@ import "./Dashboard.css";
 function Dashboard(props) {
 
   const navigate = useNavigate('');
+  const location = useLocation();
   // const [parkingSpaces, setParkingSpaces] = useState({});
   const [selectedSpace, setSelectedSpace] = useState(null);
   const [balance, setBalance] = useState();
   const [selectedLocation, setSelectedLocation] = useState();
   const [ isDisabled, setIsDisabled ] = useState(false);
 
-  
   useEffect(()=>{
     handleBalance();
     handleRequest();
+    props.handleAuthentication();
     console.log("parking space test");
     console.log(props.parkingSpaces);
     // handleParkingSpace();
@@ -26,7 +27,7 @@ function Dashboard(props) {
   },[])
   
   const handleRequest = async()=>{
-    console.log(props.isLoggedIn);
+    // console.log(props.isLoggedIn);
     if(await props.isLoggedIn==true ){
       handleReservation();
     }else{
@@ -116,49 +117,59 @@ function Dashboard(props) {
 
   const handleReserve = async(event)=>{
     console.log(event.target.value);
-    try{
-      const response = await apiInstance.put(`reserve/${selectedLocation}`, {
-        'spot':event.target.value
-      })
-      if(response.status===201){
-        console.log("reserved")
-        try{
-          const response1 = await axios.put('http://localhost:8000/user/reserve',{
-            uid : props.user.id,
-            rid : response.data
-          });
-          if(response1.status === 200 ){
-            console.log("success");
+    if(props.user.rid){
+      alert("You have already reserved a space");
+    }else{
+      try{
+        const response = await apiInstance.put(`reserve/${selectedLocation}`, {
+          'spot':event.target.value
+        })
+        if(response.status===201){
+          console.log("reserved")
+          try{
+            const response1 = await axios.put('http://localhost:8000/user/reserve',{
+              uid : props.user.id,
+              rid : response.data
+            });
+            if(response1.status === 200 ){
+              console.log("success");
+              props.handleParkingSpaces(selectedLocation);
+              props.handleAuthentication();
+            }
+          }catch(error){
+            console.error("Error from user reservation")
           }
-        }catch(error){
-          console.error("Error from user reservation")
         }
+      }catch(error){
+        console.error("Error from parking reservation");
       }
-    }catch(error){
-      console.error("Error from parking reservation");
     }
-    // redirect('/');
   }
   
   const handleFree = async(event)=>{
     console.log(event.target.value);
     try{
-      const response = await axios.patch('http://localhost:8000/free', {
-        'id': props.user.rid
+      const response = await apiInstance.patch('free', {
+        "id": `${props.user.rid}`
       })
       if(response.status===202){
         console.log("freed")
         try{
           const response1 = await axios.patch('http://localhost:8000/user/free',{
-            'uid' : props.user.id,
+            'id' : props.user.id,
           });
           if(response1.status === 200 ){
             console.log("success");
-            try{
-              const response2 = await axios.put('http://localhost:8000/user/unload')
-            }catch(error){
-              console.error("error while charging amount")
-            }
+            props.handleParkingSpaces(selectedLocation);
+            props.handleAuthentication();
+            // try{
+            //   const response2 = await axios.put('http://localhost:8000/user/unload',{
+            //     "id": props.user.id,
+            //     "balance": paisa
+            //   })
+            // }catch(error){
+            //   console.error("error while charging amount")
+            // }
           }
         }catch(error){
           console.error("Error from user reservation")
@@ -174,8 +185,9 @@ function Dashboard(props) {
     setSelectedLocation(()=> event.target.value);
     console.log(event.target.value);
     props.handleParkingSpaces(event.target.value);
-    console.log(props.selectedLocation);
+    // console.log(props.selectedLocation);
     console.log("selected location at dashboard");
+    // navigate('/dashboard');
   };
 
   const handleChangeLocation = () => {
@@ -198,7 +210,7 @@ function Dashboard(props) {
                           className={`${props.parkingSpaces[key] ? 'unavailable' : 'available'}`} 
                           value={key} 
                           // onClick={props.parkingSpaces[key] ? handleFree : handleReserve } >
-                          onClick ={ handleSelectSpace } >
+                          onClick ={ props.parkingSpaces[key]? handleFree: handleReserve } >
                       {key}
                   </button>
               )}

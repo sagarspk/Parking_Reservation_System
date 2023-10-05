@@ -2,7 +2,7 @@ import React, { useState,useEffect } from 'react';
 import axios from 'axios';
 import KhaltiCheckout from 'khalti-checkout-web'
 import "./Profile.css";
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate} from 'react-router-dom';
 
 function Profile(props) {
   const navigate = useNavigate();
@@ -30,8 +30,8 @@ function Profile(props) {
       // replace this key with yours
       "publicKey": "test_public_key_6a7004582d2b411baba2a479c92b7fbb",
       "productIdentity": "1234567890",
-      "productName": "Drogon",
-      "productUrl": "http://gameofthrones.com/buy/Dragons",
+      "productName": "Parking Spot",
+      "productUrl": "http://prs.com/reserve-space",
       "eventHandler": {
           onSuccess (payload) {
               try{
@@ -39,6 +39,10 @@ function Profile(props) {
                   "id":props.user.id,
                   "balance":paisa
                 })
+                if(response.status===200){
+                  alert(payload);
+                }
+
               }catch(error){
                 console.error("balance load failed")
               }
@@ -48,6 +52,8 @@ function Profile(props) {
           onError (error) {
               // handle errors
               console.log(error);
+              alert("TopUp Failed")
+
           },
           onClose () {
               console.log('widget is closing');
@@ -55,7 +61,7 @@ function Profile(props) {
       },
       "paymentPreference": ["KHALTI", "EBANKING","MOBILE_BANKING", "CONNECT_IPS", "SCT"],
     };
-     let amount = paisa*100;
+    let amount = paisa*100;
     let checkout = new KhaltiCheckout(config);
     let btn = document.getElementById("payment-button");
     btn.onclick = function () {
@@ -96,7 +102,8 @@ function Profile(props) {
           </tr>
         </thead>
         <tbody>
-          {props.reservation.map((reserve)=> <tr key={reserve.ID}>
+          {props.reservation.map((reserve)=> 
+          <tr key={reserve.ID}>
             <td>{reserve.Date}</td>
             <td>{reserve.ID}</td>
             <td></td>

@@ -59,8 +59,9 @@ function Login(props) {
         console.log(response.status)
         const data =response.data
         props.setUser(data)
-        props.handleLogin();
-        navigate('/dashboard');
+        props.setIsLoggedIn(true);
+        // navigate('/dashboard');
+        window.location.reload();
         // console.log(props.user)
       }else{
         alert("Login Failed")

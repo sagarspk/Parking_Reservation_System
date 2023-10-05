@@ -36,13 +36,15 @@ class UserAuthenticated(APIView):
 class UserReserve(APIView):
     def put(self,request):
         customer_obj = Customer.objects.get(user_id = request.data['uid'])
+        if(customer_obj.reservation_id):
+            return Response("User has already booked a parking space",status=status.HTTP_403_FORBIDDEN)
         customer_obj.reservation_id= request.data['rid']
         customer_obj.save()
         return Response("Reservation Id set to user",status=status.HTTP_200_OK)
 
 class UserFree(APIView):
     def patch(self,request):
-        customer_obj = Customer.objects.get(user_id = request.data['uid'])
+        customer_obj = Customer.objects.get(user_id = request.data['id'])
         customer_obj.reservation_id= None
         customer_obj.save()
         return Response("Reservation Id reset from user",status=status.HTTP_200_OK)

@@ -35,9 +35,17 @@ class Reserve(APIView):
         
         if not (user.is_authenticated):
             return Response("User Is not Authenticated",status=status.HTTP_401_UNAUTHORIZED)
+        
 
         park_obj = ParkingSpace.objects.get(name =pk)
         # park_obj = get_object_or_404(ParkingSpace,pk)
+        
+        user_obj = Customer.objects.get(user = user)
+        
+        if(user_obj.balance==0.0):
+            return Response("Please TopUp your account before procceding",status=status.HTTP_406_NOT_ACCEPTABLE)
+        # elif(user_obj.balance<=park_obj.price_per_hour):
+        #     return Response("Your balance is "+str(user_obj.balance)+", which is insufficient for "+str(park_obj.name)+".",status=status.HTTP_402_PAYMENT_REQUIRED)
         
         # spotReservation(park_obj=park_obj,spot=spot,value=True)
         setattr(park_obj,spot ,True)
@@ -69,8 +77,7 @@ class Allocate(APIView):
 class Free(APIView):
     def patch(self,request):
         user = request.user
-        data = request.data
-        id = data['id']
+        id = request.data['id']
         
         # reserve_obj = get_object_or_404(Reservation,id)
         # park_obj = get_object_or_404(ParkingSpace,reserve_obj.parking_space.pk)
@@ -88,10 +95,11 @@ class Free(APIView):
         minute_difference = time_difference.total_seconds()/60
         amount_per_minute= park_obj.price_per_hour / 60
         
-        total_amount = amount_per_minute* int(minute_difference)
+        total_amount = amount_per_minute* Decimal(minute_difference)
         
         reserve_obj.total_amount=amount_per_minute* Decimal(minute_difference)
         reserve_obj.save()
+        
         
         user_obj = Customer.objects.get(user = user)
         user_obj.balance = user_obj.balance - total_amount
@@ -135,14 +143,15 @@ class ViewReservation(APIView):
         reserve_obj = Reservation.objects.all().filter(user = pk)
         reserve_data = []
         for reserve in reserve_obj:
-            time_difference = reserve.end_time - reserve.start_time
-            minute_difference = float(time_difference.total_seconds()/60)
-            reserve_data.append({'Date':reserve.start_time,
+            if(reserve.end_time):
+                time_difference = reserve.end_time - reserve.start_time
+                minute_difference = float(time_difference.total_seconds()/60)
+                reserve_data.append({'Date':reserve.start_time,
                                  'ID':reserve.id,
                                 #  'vehicle':reserve.vehicle_number,
                                  'Location':reserve.parking_space.name,
                                  'Duration':minute_difference,
-                                 'Amount':reserve.total_amount})
+                                 'Amount':reserve.total_amount})      
         return Response(reserve_data,status=status.HTTP_200_OK);
 class GenerateReceipt(APIView):
     def post(self,request):

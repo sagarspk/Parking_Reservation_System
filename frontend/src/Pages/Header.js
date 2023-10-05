@@ -4,9 +4,9 @@ import { useEffect, useState } from "react";
 
 function Header(props) {
 
-    const navigate = useNavigate('');
+    // const navigate = useNavigate('');
     const location = useLocation();
-    console.log(location.pathname);
+    // console.log(location.pathname);
 
 
     return (
@@ -21,13 +21,20 @@ function Header(props) {
                             <div className="points-section">
                                 Balance: Rs{props.user.balance}
                             </div>
-                            <Link to="/profile" className="button" >
-                                <img className="profile-picture" src={require("./profile.png")} alt="Profile" />
-                                {props.user.firstName + ' ' + props.user.lastName}
+                            { location.pathname== '/profile' ?
+                                <Link to='/dashboard' className="button">
+                                    Back to Dashboard
+                                </Link>    
+                                :
+                                <Link to="/profile" className="button" >
+                                    <img className="profile-picture" src={require("./profile.png")} alt="Profile" />
+                                    {props.user.firstName + ' ' + props.user.lastName}
+                                </Link>
+                            }
+                            <Link to='/' className="button" onClick={props.handleLogout}>
+                                {/* <button className="logout-button" onClick={props.handleLogout}>Logout</button> */}
+                                Logout
                             </Link>
-                            <div className="bottom-section">
-                                <button className="logout-button" onClick={props.handleLogout}>Logout</button>
-                            </div>
                             
                         </>
                         :

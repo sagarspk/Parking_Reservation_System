@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Route, Routes, Link, useNavigate } from "react-router-dom";
+import { Route, Routes, Link, useNavigate,useLocation } from "react-router-dom";
 import ControllerLogin from "./Pages/ControllerLogin";
 import Login from "./Pages/Login";
 import SignUp from "./Pages/SignUp";
@@ -23,6 +23,7 @@ import AddParking from "./Pages/AddParking";
 function App2() {
   
   const navigate = useNavigate('');
+  const location = useLocation();
 
   // const [currentPage, setCurrentPage] = useState('login');
   const [parking, setParking] = useState([]);
@@ -36,28 +37,28 @@ function App2() {
 
 
   //Authenication Check
-
-  useEffect(() => {
-    async function handleAuthentication() {
-      try {
-        const response = await apiInstance.get('user')
-        if (response.status === 200) {
-          console.log('User Found')
-          console.log(response.data)
-          setUser(response.data)
-          setIsLoggedIn(true);
-          navigate('/dashboard');
-        } else {
-          console.log('User Not Found')
-          // navigate('/');
-        }
-        // console.log("Authentication checked")
-        // console.log(response.data)
-        // alert(response.data)
-      } catch (error) {
-        // console.error(error)
+  const handleAuthentication=async()=> {
+    try {
+      const response = await apiInstance.get('user')
+      if (response.status === 200) {
+        console.log('User Found')
+        console.log(response.data)
+        setUser(response.data)
+        setIsLoggedIn(true);
+        navigate('/dashboard');
+      } else {
+        console.log('User Not Found')
+        // navigate('/');
       }
-    };
+      // console.log("Authentication checked")
+      // console.log(response.data)
+      // alert(response.data)
+    } catch (error) {
+      // console.error(error)
+    }
+  };
+  useEffect(() => {
+    
     handleAuthentication();
     handleView();
     // handleParkingSpaces();
@@ -122,7 +123,8 @@ function App2() {
         console.log("user logged out with null token")
         setUser({});
         setIsLoggedIn(false);
-        navigate("/");
+        window.location.reload();
+        // navigate("/");
       }
     }catch(error){
       alert('Logout Failed');
@@ -131,10 +133,10 @@ function App2() {
 
 };
 
-  const handleLogin = () => {
-    setIsLoggedIn(true);
-    navigate("/dashboard");
-  };
+  // const handleLogin = () => {
+  //   setIsLoggedIn(true);
+  //   navigate("/dashboard");
+  // };
 
   // const handleLogout = () => {
   //   setUser({});
@@ -149,10 +151,10 @@ function App2() {
     <Routes>
         <Route path="/add-parking" element ={<AddParking />}></Route>
         <Route path="/controller-login" element={<ControllerLogin />}></Route>
-        <Route path="/" element={<Login handleLogin={handleLogin} setUser={setUser} />}/>
+        <Route path="/" element={<Login setIsLoggedIn={setIsLoggedIn} setUser={setUser} />}/>
         <Route path="/register" element={<SignUp />}/>
         <Route path="/forgotpassword" element={<ForgotPassword />}/>
-        <Route path="/dashboard" element={<Dashboard parking={parking} user={user} isLoggedIn={isLoggedIn} setReservation={setReservation} parkingSpaces={parkingSpaces} selectedLocation={selectedLocation} setSelectedLocation={setSelectedLocation} handleParkingSpaces={handleParkingSpaces} />}/>
+        <Route path="/dashboard" element={<Dashboard parking={parking} user={user} isLoggedIn={isLoggedIn} setReservation={setReservation} parkingSpaces={parkingSpaces} selectedLocation={selectedLocation} setSelectedLocation={setSelectedLocation} handleParkingSpaces={handleParkingSpaces} handleAuthentication={handleAuthentication} />}/>
         <Route path="/profile" element={<Profile user={user} reservation={reservation} isLoggedIn={isLoggedIn} />}/>
     </Routes>
   </>
