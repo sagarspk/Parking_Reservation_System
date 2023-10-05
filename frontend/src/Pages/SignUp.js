@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import {Link} from 'react-router-dom';
 import axios from 'axios';
 import './SignUp.css';
 
@@ -121,9 +122,10 @@ function SignUp(props) {
             <input type="text" value={address} onChange={handleAddressChange} />
             {errors.address && <span className="error">{errors.address}</span>}
           </label>
-          <button type="submit">Sign Up</button>
-          <button onClick={() => props.handlePageChange("login")}>Back to Login</button>
+          <button type="submit" className="button">Sign Up</button>
+          
         </form>
+        <Link to='/' className="button">Login</Link>
       </div>
     </div>
   );

@@ -1,7 +1,10 @@
 .profile-container {
-    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    /* max-width: 600px; */
     margin: 0 auto;
-    padding: 20px;
+    padding: 50px;
     background-color: #f5f5f5;
     border-radius: 10px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);

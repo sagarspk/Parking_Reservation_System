@@ -33,15 +33,16 @@ function AddParking() {
     event.preventDefault();
 
     try {
-      const response = await axios.post('http://localhost:8000/parking/add', {
-        parkingName: parkingName,
+      const response = await axios.post('http://localhost:8000/controller/register', {
+        name: parkingName,
         location: location,
-        pricePerHour: pricePerHour,
-        controllerEmail: controllerEmail,
-        controllerPassword: controllerPassword
+        price_per_hour: pricePerHour,
+        email: controllerEmail,
+        password: controllerPassword,
+        open: 'True'
       });
 
-      if (response.status === 200) {
+      if (response.status === 201) {
         console.log("Parking added successfully");
         // Reset the form
         setParkingName("");

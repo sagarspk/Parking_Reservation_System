@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from django.core.exceptions import ValidationError
 from django.contrib.auth import get_user_model
-from .models import Customer, Controller
+from .models import Customer, Controller , ParkingSpace
 
 
 UserModel=get_user_model()
@@ -31,7 +31,10 @@ class ControllerRegisterSerializer(serializers.ModelSerializer):
     def create(self,data):
         user_obj = UserModel.objects.create_superuser(email=data['email'],password=data['password'])
         user_obj.save()
-        controller_obj = Controller.objects.create(user = user_obj )
+        park_obj = ParkingSpace(name=data['name'],location=data['location'],price_per_hour=data['price_per_hour'],is_open=data['open'])
+        park_obj.save()
+        controller_obj = Controller.objects.create(user = user_obj,park = park_obj )
+        controller_obj.save()
         return user_obj
 
 class LoginSerializer(serializers.Serializer):

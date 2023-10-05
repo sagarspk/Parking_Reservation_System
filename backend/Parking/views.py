@@ -2,6 +2,7 @@ from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from Account.models import Customer
 from .models import (ParkingSpace,
                      Reservation,
                      Payment)
@@ -35,11 +36,11 @@ class Reserve(APIView):
         if not (user.is_authenticated):
             return Response("User Is not Authenticated",status=status.HTTP_401_UNAUTHORIZED)
 
-        park_obj = ParkingSpace.objects.get(pk=pk)
+        park_obj = ParkingSpace.objects.get(name =pk)
         # park_obj = get_object_or_404(ParkingSpace,pk)
         
         # spotReservation(park_obj=park_obj,spot=spot,value=True)
-        setattr(park_obj,'spot'+spot,True)
+        setattr(park_obj,spot ,True)
         
         park_obj.save()
         
@@ -58,7 +59,7 @@ class Allocate(APIView):
         park_obj = ParkingSpace.objects.get(pk=pk)
         # park_obj = get_object_or_404(ParkingSpace,pk)
         # spotReservation(park_obj=park_obj,spot=spot,value=True)
-        setattr(park_obj,'spot'+spot,True)
+        setattr(park_obj, spot,True)
         park_obj.save()
         
         reserve = Reservation(user=user,parking_space= park_obj ,spot = spot ,start_time=timezone.now(),end_time=None,total_amount=None)
@@ -79,7 +80,7 @@ class Free(APIView):
         spot = reserve_obj.spot
         
         # spotReservation(park_obj=park_obj,spot=spot,value=False)
-        setattr(park_obj,'spot'+spot,False)
+        setattr(park_obj,spot,False)
         park_obj.save()
         
         reserve_obj.end_time= timezone.now()
@@ -87,8 +88,15 @@ class Free(APIView):
         minute_difference = time_difference.total_seconds()/60
         amount_per_minute= park_obj.price_per_hour / 60
         
+        total_amount = amount_per_minute* int(minute_difference)
+        
         reserve_obj.total_amount=amount_per_minute* Decimal(minute_difference)
         reserve_obj.save()
+        
+        user_obj = Customer.objects.get(user = user)
+        user_obj.balance = user_obj.balance - total_amount
+        user_obj.save()
+        
         return Response("Freed",status=status.HTTP_202_ACCEPTED)
     
 class ViewParking(APIView):
@@ -99,33 +107,43 @@ class ViewParking(APIView):
             park_data.append({'name':park.name,
                               'id': park.id,
                               'location':park.location,
-                              'is_open':park.is_open})
-        # queryset = Reservation.objects.all()
+                              'is_open':park.is_open,
+                              'price_per_hour':park.price_per_hour})
         return Response(park_data,status=status.HTTP_200_OK)
 
 class ViewParkingSpace(APIView):
     def get(self,request,pk):
-        park_obj = ParkingSpace.objects.get(pk=pk)
+        park_obj = ParkingSpace.objects.get(name=pk)
         user = request.user
-        if(user.is_authenticated):
-            park_data = {'name':park_obj.name,
-                        'location':park_obj.location,
-                        'price_per_hour':park_obj.price_per_hour,
-                        'is_open':park_obj.is_open,
-                        'spot1':park_obj.spot1,
-                        'spot2':park_obj.spot2,
-                        'spot3':park_obj.spot3,
-                        'spot4':park_obj.spot4,
-                        'spot5':park_obj.spot5,
-                        'spot6':park_obj.spot6,
-                        'spot7':park_obj.spot7,
-                        'spot8':park_obj.spot8,
-                        'spot9':park_obj.spot9,
-                        'spot10':park_obj.spot10}
-            return Response(park_data,status=status.HTTP_200_OK)
-        else:
-            return Response("Login first",status=status.HTTP_401_UNAUTHORIZED)
-
+        # if(user.is_authenticated):
+        park_data = {
+                    'spot1':park_obj.spot1,
+                    'spot2':park_obj.spot2,
+                    'spot3':park_obj.spot3,
+                    'spot4':park_obj.spot4,
+                    'spot5':park_obj.spot5,
+                    'spot6':park_obj.spot6,
+                    'spot7':park_obj.spot7,
+                    'spot8':park_obj.spot8,
+                    'spot9':park_obj.spot9,
+                    'spot10':park_obj.spot10}
+        return Response(park_data,status=status.HTTP_200_OK)
+        # else:
+        #     return Response("Login first",status=status.HTTP_401_UNAUTHORIZED)
+class ViewReservation(APIView):
+    def get(self,request,pk):
+        reserve_obj = Reservation.objects.all().filter(user = pk)
+        reserve_data = []
+        for reserve in reserve_obj:
+            time_difference = reserve.end_time - reserve.start_time
+            minute_difference = float(time_difference.total_seconds()/60)
+            reserve_data.append({'Date':reserve.start_time,
+                                 'ID':reserve.id,
+                                #  'vehicle':reserve.vehicle_number,
+                                 'Location':reserve.parking_space.name,
+                                 'Duration':minute_difference,
+                                 'Amount':reserve.total_amount})
+        return Response(reserve_data,status=status.HTTP_200_OK);
 class GenerateReceipt(APIView):
     def post(self,request):
         return 0
