@@ -28,6 +28,7 @@ function App2() {
   // const [currentPage, setCurrentPage] = useState('login');
   const [parking, setParking] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isControllerLoggedIn, setIsControllerLoggedIn] = useState(false);
   const [user, setUser] = useState({});
   const [ reservation, setReservation]= useState({});
   const [ parkingSpaces, setParkingSpaces ] = useState({});
@@ -57,10 +58,34 @@ function App2() {
       // console.error(error)
     }
   };
+
+  const handleControllerAuthentication=async()=> {
+    try {
+      const response = await apiInstance.get('user')
+      if (response.status === 200) {
+        console.log('User Found')
+        console.log(response.data)
+        setUser(response.data)
+        setIsLoggedIn(true);
+        navigate('/controller-dashboard');
+      } else {
+        console.log('User Not Found')
+        // navigate('/');
+      }
+      // console.log("Authentication checked")
+      // console.log(response.data)
+      // alert(response.data)
+    } catch (error) {
+      // console.error(error)
+    }
+  };
   useEffect(() => {
-    
-    handleAuthentication();
-    handleView();
+    if(isControllerLoggedIn){
+      
+    }else{
+      handleAuthentication();
+      handleView();
+    }
     // handleParkingSpaces();
   }, []);
   // useEffect(()=>{
@@ -98,6 +123,20 @@ function App2() {
 
     }
   }
+
+   const handleGenerateQr = async(event)=>{
+    try{
+      const response = await axios.get('http://localhost:8000/generate',{
+        reservation_id : event.target.value
+      });
+      if(response.status===202){
+
+      }
+    }catch(error){
+      console.error("Error while generating QR");
+    }
+
+   }
 
   // const handleReservation=async()=>{
   //   try{
@@ -150,11 +189,12 @@ function App2() {
     <Header user={user} isLoggedIn={ isLoggedIn } handleLogout={handleLogout} />
     <Routes>
         <Route path="/add-parking" element ={<AddParking />}></Route>
-        <Route path="/controller-login" element={<ControllerLogin />}></Route>
+        <Route path="/controller-login" element={<ControllerLogin setUser={setUser} setIsControllerLoggedIn={setIsControllerLoggedIn} />}></Route>
         <Route path="/" element={<Login setIsLoggedIn={setIsLoggedIn} setUser={setUser} />}/>
         <Route path="/register" element={<SignUp />}/>
         <Route path="/forgotpassword" element={<ForgotPassword />}/>
         <Route path="/dashboard" element={<Dashboard parking={parking} user={user} isLoggedIn={isLoggedIn} setReservation={setReservation} parkingSpaces={parkingSpaces} selectedLocation={selectedLocation} setSelectedLocation={setSelectedLocation} handleParkingSpaces={handleParkingSpaces} handleAuthentication={handleAuthentication} />}/>
+        <Route path="/controller-dashboard" element={<Dashboard parking={parking} user={user} isLoggedIn={isLoggedIn} setReservation={setReservation} parkingSpaces={parkingSpaces} selectedLocation={selectedLocation} setSelectedLocation={setSelectedLocation} handleParkingSpaces={handleParkingSpaces} handleAuthentication={handleAuthentication} />}/>
         <Route path="/profile" element={<Profile user={user} reservation={reservation} isLoggedIn={isLoggedIn} />}/>
     </Routes>
   </>

@@ -1,56 +1,52 @@
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import '../App.css';
-import { useEffect, useState } from "react";
+import './Header.css';
+import { useEffect } from "react";
 
 function Header(props) {
 
-    // const navigate = useNavigate('');
+    const navigate = useNavigate('');
     const location = useLocation();
-    // console.log(location.pathname);
+    console.log(location.pathname);
 
 
     return (
         <>
             <header>
-                <div className="header-left">
-                    <h1>Parking Reservation System</h1>
-                </div>
-                <div className="header-right">
+                <h2 className="logo">Parking Reservation System</h2>
                     {props.isLoggedIn ?
                         <>
-                            <div className="points-section">
-                                Balance: Rs{props.user.balance}
+                        <nav className="navigation">
+                            <div className="balance">
+                                Rs. {props.user.balance}
                             </div>
                             { location.pathname== '/profile' ?
-                                <Link to='/dashboard' className="button">
-                                    Back to Dashboard
+                                <Link to='/dashboard' className="a">
+                                    Dashboard
                                 </Link>    
                                 :
-                                <Link to="/profile" className="button" >
-                                    <img className="profile-picture" src={require("./profile.png")} alt="Profile" />
+                                <Link to="/profile" className="a" >
+                                    {/* <img className="profile-picture" src={require("./profile.png")} alt="Profile" /> */}
                                     {props.user.firstName + ' ' + props.user.lastName}
                                 </Link>
                             }
-                            <Link to='/' className="button" onClick={props.handleLogout}>
-                                {/* <button className="logout-button" onClick={props.handleLogout}>Logout</button> */}
-                                Logout
-                            </Link>
-                            
+                                <button className="btnLogin-popup" onClick={props.handleLogout}>Logout</button>
+                        </nav>    
                         </>
                         :
                         <>
-                            <Link to="/" className="button">
+                        <nav className="navigation">
+                            <Link to="/" className="a">
                                 Home
                             </Link>
-                            <Link to="/" className="button">
+                            <Link to="/" className="a">
                                 About Us
                             </Link>
-                            <Link to="/register" className="button">
+                            <Link to="/register" className="a">
                                 Register
                             </Link>
+                        </nav>
                         </>
                     }
-                </div>
             </header>
         </>
     )

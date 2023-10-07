@@ -1,24 +1,104 @@
 .profile-container {
+  margin-left: 1%;
+  margin-right: 1%;
+    margin-top: 130px;
     display: flex;
     flex-direction: column;
-    flex-wrap: wrap;
-    /* max-width: 600px; */
-    margin: 0 auto;
+    justify-content: center;
     padding: 50px;
     background-color: #f5f5f5;
     border-radius: 10px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
   }
+
+.profile-container .wrap .profile-details .name {
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+.profile-container h2 {
+  font-size: 2em;
+  margin-bottom: 40px;
+  text-align: center;
+} 
+
+.profile-container h3 {
+  font-size: 1.5em;
+  text-align: center;
+  margin-bottom: 20px;
+}
+.wrap {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+  overflow: auto;
+}
+
+.profile-container .wrap .payment-container p{
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+.profile-container .wrap .payment-container .input-box {
+  position: relative;
+  width: 100%;
+  height: 50px;
+  border-bottom: 2px solid #162938;
+  margin: 30px 0;
+}
+
+.profile-container .wrap .payment-container .input-box label {
+  position: absolute;
+  top: 50%;
+  left: 5px;
+  transform: translateY(-50%);
+  font-size: 1em;
+  color: #162938;
+  font-weight: 500;
+  pointer-events: none;
+  transition: .5s;
+}
+
+.profile-container .wrap .payment-container .input-box label.input-filled {
+  top: -5px;
+}
+
+.profile-container .wrap .payment-container .input-box input {
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 1em;
+  color: #162938;
+  font-weight: 600;
+  padding: 0 35px 0 5px;
+}
+
+.profile-container .wrap .payment-container .pay-btn {
+  width: 100%;
+  height: 45px;
+  background: #800080;
+  border: none;
+  outline: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1em;
+  color: #fff;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+}
+
+.profile-container .wrap .payment-container .pay-btn:hover {
+  background-color: #bb00bb
+}
+
+.profile-container .wrap .payment-container .pay-btn:active {
+  background-color: #0b2533; 
+}
+
   
-  h1 {
-    text-align: center;
-    margin-bottom: 30px;
-    font-family: 'Roboto', sans-serif;
-    font-size: 32px;
-    color: #333;
-  }
-  
-  .button {
+  /* .button {
     display: inline-block;
     padding: 10px 20px;
     background-color: #007bff;
@@ -34,7 +114,7 @@
   
   .button:hover {
     background-color: #0056b3;
-  }
+  } */
   
   .profile-details {
     margin-bottom: 30px;
@@ -42,38 +122,124 @@
   
   .profile-details h2 {
     margin-bottom: 10px;
-    font-family: 'Roboto', sans-serif;
-    font-size: 24px;
-    color: #333;
   }
   
   .booking-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 30px;
+    border: 1px solid #162938;
+    border-radius: 10px;
+    /* width: 100%; */
+    /* border-collapse: separate; */
+    border-spacing: 0;
+    /* overflow: hidden; */
   }
   
   .booking-table th {
-    background-color: #007bff;
+    background-color: #162938;
     color: #fff;
-    padding: 10px;
-    text-align: left;
-    font-family: 'Roboto', sans-serif;
-    font-size: 16px;
+    /* text-align: left; */
   }
   
-  .booking-table td {
+  .booking-table th, td {
     padding: 10px;
-    border-bottom: 1px solid #ddd;
-    font-family: 'Roboto', sans-serif;
-    font-size: 14px;
-    color: #555;
+    text-align: center;
+  }
+
+  .booking-table tr:hover {
+    background-color: #dcdcdc;
+  }
+
+  .booking-table tr:first-child th:first-child {
+    border-top-left-radius: 10px;
+  }
+  .booking-table tr:first-child th:last-child {
+    border-top-right-radius: 10px;
+  }
+  .booking-table tr:last-child td:first-child {
+    border-bottom-left-radius: 10px;
+  }
+  .booking-table tr:last-child td:last-child {
+    border-bottom-right-radius: 10px;
   }
   
-  .booking-table tr:last-child td {
+  /* .booking-table tr:last-child td {
     border-bottom: none;
   }
   
   .booking-table td:first-child {
     width: 20%;
+  } */
+
+  .profile-container .booking-table {
+    overflow-x: auto;
+  }
+  
+  @media screen and (max-width: 768px) {
+    .profile-container .wrap{
+      display: flex;
+      flex-direction: column;
+    }
+    .profile-container .booking-table {
+      display: block;
+      width: 100%;
+    }
+  
+    .profile-container .booking-table thead,
+    .profile-container .booking-table tbody,
+    .profile-container .booking-table tr,
+    .profile-container .booking-table th,
+    .profile-container .booking-table td {
+      display: block;
+    }
+  
+    .profile-container .booking-table thead tr {
+      position: absolute;
+      top: -9999px;
+      left: -9999px;
+    }
+  
+    .profile-container .booking-table tbody tr {
+      border: 1px solid #162938;
+      margin-bottom: 10px;
+    }
+  
+    .profile-container .booking-table td {
+      border: none;
+      position: relative;
+      padding-left: 50%;
+      text-align: left;
+    }
+  
+    .profile-container .booking-table td:before {
+      position: absolute;
+      top: 6px;
+      left: 6px;
+      width: 45%;
+      padding-right: 10px;
+      white-space: nowrap;
+      font-weight: bold;
+    }
+  
+    .profile-container .booking-table td:nth-of-type(1):before {
+      content: "Date:";
+    }
+  
+    .profile-container .booking-table td:nth-of-type(2):before {
+      content: "Reservation ID:";
+    }
+  
+    .profile-container .booking-table td:nth-of-type(3):before {
+      content: "Vehicle No.:";
+    }
+  
+    .profile-container .booking-table td:nth-of-type(4):before {
+      content: "Location:";
+    }
+  
+    .profile-container .booking-table td:nth-of-type(5):before {
+      content: "Duration:";
+    }
+  
+    .profile-container .booking-table td:nth-of-type(6):before {
+      content: "Charge:";
+    }
   }

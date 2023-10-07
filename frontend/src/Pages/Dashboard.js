@@ -135,6 +135,7 @@ function Dashboard(props) {
               console.log("success");
               props.handleParkingSpaces(selectedLocation);
               props.handleAuthentication();
+              // props.setUser({user,userrid=response.data});
             }
           }catch(error){
             console.error("Error from user reservation")
@@ -185,6 +186,7 @@ function Dashboard(props) {
     setSelectedLocation(()=> event.target.value);
     console.log(event.target.value);
     props.handleParkingSpaces(event.target.value);
+    props.handleAuthentication();
     // console.log(props.selectedLocation);
     console.log("selected location at dashboard");
     // navigate('/dashboard');
