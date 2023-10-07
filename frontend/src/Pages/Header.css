@@ -1,0 +1,130 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+header {
+    background: #162938;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px 100px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 99;
+}
+
+.logo {
+    font-size: 2em;
+    color: #fff;
+    user-select: none;
+}
+.navigation {
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+}
+.navigation a {
+    position: relative;
+    font-size: 1.1em;
+    color: #fff;
+    text-decoration: none;
+    font-weight: 500;
+    margin-left: 40px;
+    height: fit-content;
+}
+
+.navigation a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -6px;
+    width: 100%;
+    height: 3px;
+    background: #fff;
+    border-radius: 5px;
+    transform-origin: right;
+    transform: scaleX(0);
+    transition: transform .5s;
+}
+
+.navigation a:hover::after {
+    transform-origin: left;    
+    transform: scaleX(1);
+}
+
+.navigation .btnLogin-popup {
+  width: 130px;
+  height: 50px;
+  background: transparent;
+  border: 2px solid #fff;
+  outline: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1.1em;
+  color: #fff;
+  font-weight: 500;
+  margin-left: 40px;
+  transition: .5s;
+}
+
+.navigation .btnLogin-popup:hover {
+  background: #fff;
+  color: #162938;
+}
+
+.balance {
+  font-size: 1.1em;
+  font-weight: bold;
+  display: flex;
+  color: #fff;
+  height: fit-content;
+  margin-left: 20px;
+}
+
+@media screen and (max-width: 768px) {
+
+    header {
+      padding: 20px 50px; 
+    }
+  
+    .logo {
+      font-size: 1.5em;
+    }
+    
+    .navigation a {
+      margin-left: 20px;
+      font-size: 1em;
+    }
+  
+  }
+  
+  @media screen and (max-width: 480px) {
+  
+    header {
+      flex-direction: column;
+      padding: 10px;
+    }
+    
+    .logo {
+      margin-bottom: 10px;
+    }
+  
+    .navigation {
+      display: flex;
+      justify-content: space-between; 
+      width: 100%;
+    }
+    
+    .navigation a {
+      margin: 0 10px;
+      font-size: 0.9em;
+    }
+  
+  }

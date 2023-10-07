@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from 'axios';
-import './AddParking.css';
+import './Login.css';
 
 function AddParking() {
   const [parkingName, setParkingName] = useState("");
@@ -33,16 +33,15 @@ function AddParking() {
     event.preventDefault();
 
     try {
-      const response = await axios.post('http://localhost:8000/controller/register', {
-        name: parkingName,
+      const response = await axios.post('http://localhost:8000/parking/add', {
+        parkingName: parkingName,
         location: location,
-        price_per_hour: pricePerHour,
-        email: controllerEmail,
-        password: controllerPassword,
-        open: 'True'
+        pricePerHour: pricePerHour,
+        controllerEmail: controllerEmail,
+        controllerPassword: controllerPassword
       });
 
-      if (response.status === 201) {
+      if (response.status === 200) {
         console.log("Parking added successfully");
         // Reset the form
         setParkingName("");
@@ -60,56 +59,33 @@ function AddParking() {
   };
 
   return (
-    <div className="add-parking-container">
-      <h1 className="add-parking-title">Add Parking</h1>
-      <form className="add-parking-form" onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="parkingName">Parking Space Name:</label>
-          <input
-            type="text"
-            id="parkingName"
-            value={parkingName}
-            onChange={handleParkingNameChange}
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="location">Location:</label>
-          <input
-            type="text"
-            id="location"
-            value={location}
-            onChange={handleLocationChange}
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="pricePerHour">Price per Hour:</label>
-          <input
-            type="number"
-            id="pricePerHour"
-            value={pricePerHour}
-            onChange={handlePricePerHourChange}
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="controllerEmail">Controller Email:</label>
-          <input
-            type="email"
-            id="controllerEmail"
-            value={controllerEmail}
-            onChange={handleControllerEmailChange}
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="controllerPassword">Controller Password:</label>
-          <input
-            type="password"
-            id="controllerPassword"
-            value={controllerPassword}
-            onChange={handleControllerPasswordChange}
-          />
-        </div>
-        <button className="add-parking-button" type="submit">Add Parking</button>
+    <div className="page-container">
+      <div className="login-box">
+      <h2 >Add Parking</h2>
+      <form onSubmit={handleSubmit}>
+      <div className="input-box">
+            <input type="text" required value={parkingName} onChange={handleParkingNameChange} />
+            <label className={parkingName ? "input-filled" : ""}>Parking Space Name</label>
+          </div>
+          <div className="input-box">
+            <input type="text" required value={location} onChange={handleLocationChange} />
+            <label className={location ? "input-filled" : ""}>Location</label>
+          </div>
+          <div className="input-box">
+            <input type="number" required value={pricePerHour} onChange={handlePricePerHourChange} />
+            <label className={pricePerHour ? "input-filled" : ""}>Price Per Hour</label>
+          </div>
+          <div class="input-box">
+            <input type="email" required value={controllerEmail} onChange={handleControllerEmailChange} />
+            <label className={controllerEmail ? "input-filled" : ""}>Controller Email</label>
+          </div>
+          <div class="input-box">
+            <input type="password" required value={controllerPassword} onChange={handleControllerPasswordChange} />
+            <label className={controllerPassword ? "input-filled" : ""}>Controller Password</label>
+          </div>
+        <button className="btn" type="submit">Add Parking</button>
       </form>
+      </div>
     </div>
   );
 }

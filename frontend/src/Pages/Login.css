@@ -3,82 +3,147 @@ body {
 }
 
 .page-container {
+  overflow: hidden;
+  margin-top: 100px;
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 100vh;
 }
 
 .login-box {
-  margin: 0 2rem;
-  width: 50%;
-  padding: 30px;
-  border-radius: 10px;
-  box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.1);
+  overflow: auto;
+  width: 80%; 
+  margin-left: 2%;
+  margin-right: 2%;
   background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.login-box h1 {
-  margin-top: 0;
+.login-box h2 {
+  font-size: 1.5em; 
+  color: #162938; 
+  text-align: center; 
+  margin-bottom: 20px; 
 }
 
-.login-box form {
+
+.input-box {
+  position: relative;
+  width: 100%;
+  height: 50px;
+  border-bottom: 2px solid #162938;
+  margin: 30px 0;
+}
+
+.input-box label {
+  position: absolute;
+  top: 50%;
+  left: 5px;
+  transform: translateY(-50%);
+  font-size: 1em;
+  color: #162938;
+  font-weight: 500;
+  pointer-events: none;
+  transition: .5s;
+}
+
+.input-box label.input-filled {
+  top: -5px;
+}
+
+.input-box input {
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 1em;
+  color: #162938;
+  font-weight: 600;
+  padding: 0 35px 0 5px;
+}
+
+.input-box .icon {
+  position: absolute;
+  right: 8px;
+  font-size: 1.2em;
+  color: #162938;
+  line-height: 57px;
+}
+
+.remember-forgot {
+  font-size: .9em;
+  color: #162938;
+  font-weight: 500;
+  margin: -15px 0 15px;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.login-box label {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 20px;
-  width: 100%;
+.remember-forgot label input {
+  accent-color: #162938;
+  margin-right: 3px;
 }
 
-.login-box input {
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  margin-top: 5px;
-  font-size: 16px;
-  outline: none;
-  background-color: #f5f5f5;
-  width: 100%;
+.remember-forgot a {
+  color: #162938;
+  text-decoration: none;
 }
 
-.login-box button{
-  padding: 10px;
-  background-color: #007bff;
-  color: #fafafa;
-  border: none;
-  border-radius: 5px;
-  margin-top: 20px;
-  font-size: 16px;
-  cursor: pointer;
-  width: 100%;
-}
-
-.login-box button:hover {
-  background-color: #0062cc;
-  color : #fafafa
-}
-
-/* .login-box button:last-child {
-  margin-top: 10px;
-  background-color: transparent;
-  color: #007bff;
-  width: 100%;
-}
-
-.login-box button:last-child:hover {
+.remember-forgot a:hover {
   text-decoration: underline;
-} */
+}
+
+.btn {
+  width: 100%;
+  height: 45px;
+  background: #162938;
+  border: none;
+  outline: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1em;
+  color: #fff;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+  background-color: #1d6fcc; 
+}
+
+.btn:active {
+  background-color: #0b2533; 
+}
 
 .parking-gif {
-  width: 90%;
+  width: 60%;
   height: 90%;
 }
 
 .link{
   position: relative;
   
+}
+
+@media (max-width: 850px) {
+  .page-container {
+    flex-direction: column; 
+  }
+
+  .login-box {
+    margin-top: 5%;
+    height: 70%;
+    width: 90%; 
+    border-radius: 0; 
+  }
+
+  .parking-gif {
+    height: 50%;
+    width: 100%; 
+  }
 }

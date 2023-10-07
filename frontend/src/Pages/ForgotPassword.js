@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
 import axios from 'axios';
-import OTP from './OTP'
-import './ForgotPassword.css';
+import './Login.css';
 
 function ForgotPassword(props) {
   const navigate = useNavigate();
@@ -79,22 +78,22 @@ function ForgotPassword(props) {
 
   return (
     <div className="page-container">
-      <img src={require("./login.gif")} alt="ForgotPassword GIF" className="forgotpassword-gif" />
+      <img src={require("./login.gif")} alt="Parking GIF" className="parking-gif" />
       
       {change ?
         <>
-        <div className="forgot-password-box">
-        <h1>Enter your new Password</h1>
+        <div className="login-box">
+        <h2>Enter your new Password</h2>
         <form onSubmit={handlePasswordSubmit}>
-            <label>
-            Password:
-            <input type="email" value={password} onChange={handlePasswordChange} />
-            </label>
-            <label>
-            Confirm Password:
-            <input type="password" value={password} onChange={handlePasswordChange} />
-            </label>
-          <button type="submit">Submit</button>
+        <div class="input-box">
+            <input type="password" required value={password} onChange={handlePasswordChange} />
+            <label className={password ? "input-filled" : ""}>Password</label>
+          </div>
+          <div class="input-box">
+            <input type="password" required value={password} onChange={handlePasswordChange} />
+            <label className={password ? "input-filled" : ""}>Confirm Password</label>
+          </div>
+          <button type="submit" className="btn">Submit</button>
         </form>
       </div>
         </>
@@ -102,26 +101,30 @@ function ForgotPassword(props) {
       <>
       { submit ? 
         <>
-          <div className="forgot-password-box">
-          <h1>Enter you OTP</h1>
+          <div className="login-box">
+          <h2>Enter your OTP</h2>
           <form onSubmit={handleOTPSubmit}>
-            <label>
-              OTP:
-              <input type="number" value={otp} onChange={handleOtpSubmit} />
-            </label>
-            <button type="submit">Submit</button>
+          <div class="input-box">
+            <input type="number" required value={otp} onChange={handleOtpSubmit} />
+            <label className={otp ? "input-filled" : ""}>OTP</label>
+          </div> 
+            <button type="submit" className="btn">Submit</button>
           </form>
           </div>
         </>
       :
-        <div className="forgot-password-box">
-          <h1>Forgot Password</h1>
+        <div className="login-box">
+          <h2>Forgot Password</h2>
           <form onSubmit={handleSubmit}>
-            <label>
+          <div class="input-box">
+            <input type="email" required value={email} onChange={handleEmailChange} />
+            <label className={email ? "input-filled" : ""}>Email</label>
+          </div> 
+            {/* <label>
               Email:
               <input type="email" value={email} onChange={handleEmailChange} />
-            </label>
-            <button type="submit"     >Submit</button>
+            </label> */}
+            <button type="submit" className="btn" >Submit</button>
             {/* <button onClick={() => }>Back to Login</button> */}
           </form>
         </div>

@@ -56,8 +56,8 @@ class UserLogin(APIView):
         if serializer.is_valid():
             user = authenticate(username=valid_data['email'],password=valid_data['password'])
             if user:
-                # if(request.data['is_staff']!= user.is_staff):
-                #     return Response("Controller Login Detected! Please login through controller login")
+                if(request.data['is_staff'] != user.is_staff):
+                    return Response("Controller Login Detected! Please login through controller login")
                 login(request, user)
                 user_data={'id':user.id,
                            'email':user.email,
@@ -118,10 +118,14 @@ class ControllerLogin(APIView):
         if serializer.is_valid():
             user = authenticate(username=valid_data['email'],password=valid_data['password'])
             if user:
-                # if(request.data['is_staff']!= user.is_staff):
-                #     return Response("Controller Login Detected! Please login through controller login")
+                if(request.data['is_staff'] != user.is_staff):
+                    return Response("User Login Detected, please login through user portal",status=status.HTTP_401_UNAUTHORIZED)
                 login(request, user)
-                return Response('Controller logged in successfully.')
+                user_data={'id':user.id,
+                           'email':user.email,
+                           'park_id':user.controller.park,
+                           'is_staff':user.is_staff}
+                return Response(user_data, status=status.HTTP_202_ACCEPTED)
             else:
                 return Response('Invalid credentials.', status=status.HTTP_401_UNAUTHORIZED)
         else:

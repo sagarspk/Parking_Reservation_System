@@ -47,6 +47,7 @@ function Profile(props) {
                 console.error("balance load failed")
               }
               console.log(payload);
+              window.location.reload();
           },
           // onError handler is optional
           onError (error) {
@@ -75,21 +76,28 @@ function Profile(props) {
     { props.isLoggedIn ?
       (
     <div className="profile-container">
-      <h1>Profile Page</h1>
-      <div className="profile-details">
-        <h2>{props.user.firstName+ ' ' + props.user.lastName}</h2>
-        <p>Email  : {props.user.email} </p>
-        <p>Contact: {props.user.contact}</p>
-        <p>Address: {props.user.address}</p>
+      <h2>Profile Page</h2>
+      <div className='wrap'>
+        <div className="profile-details">
+          <p className='name'>{props.user.firstName+ ' ' + props.user.lastName}</p>
+          <p>Email  : {props.user.email} </p>
+          <p>Contact: {props.user.contact}</p>
+          <p>Address: {props.user.address}</p>
+        </div>
+        <div className="payment-container">
+          <p>Load Money</p>
+        <div className="input-box">
+            <input type="number" required value={paisa} onChange={handleAmountChange} />
+            <label className={paisa ? "input-filled" : ""}>Enter amount</label>
+          </div>
+          {/* <label>
+            Amount:
+            <input type="number" value={paisa} onChange={handleAmountChange} />
+          </label> */}
+          <button id="payment-button" className='pay-btn' onClick={handlePayment}>Pay via Khalti</button>
+        </div>
       </div>
-      <div className="payment-container">
-        <label>
-          Amount:
-          <input type="number" value={paisa} onChange={handleAmountChange} />
-        </label>
-        <button id="payment-button" onClick={handlePayment}>Pay via Khalti</button>
-      </div>
-      <h2>Booking History</h2>
+      <h3>Booking History</h3>
       <table className="booking-table">
         <thead>
           <tr>
@@ -99,6 +107,7 @@ function Profile(props) {
             <th>Location</th>
             <th>Duration</th>
             <th>Charge</th>
+            <th>GetQR</th>
           </tr>
         </thead>
         <tbody>
@@ -110,6 +119,7 @@ function Profile(props) {
             <td>{reserve.Location}</td>
             <td>{reserve.Duration}</td>
             <td>{reserve.Amount}</td>
+            <td><button>Generate</button></td>
           </tr>)}
         </tbody>
       </table>

@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import {Link} from 'react-router-dom';
 import axios from 'axios';
-import './SignUp.css';
+import './Login.css';
 
 function SignUp(props) {
   const [firstName, setFirstName] = useState("");
@@ -12,28 +11,9 @@ function SignUp(props) {
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
 
-  const handleFirstNameChange = (event) => {
-    setFirstName(event.target.value);
-  };
-
-  const handleLastNameChange = (event) => {
-    setLastName(event.target.value);
-  };
-
-  const handleEmailChange = (event) => {
-    setEmail(event.target.value);
-  };
-
-  const handleContact = (event) => {
-    setContact(event.target.value);
-  };
-
-  const handlePasswordChange = (event) => {
-    setPassword(event.target.value);
-  };
-
-  const handleAddressChange = (event) => {
-    setAddress(event.target.value);
+  const handleInputChange = (event, setterFunction) => {
+    const { value } = event.target;
+    setterFunction(value);
   };
 
   const handleSubmit = async(event) => {
@@ -48,12 +28,12 @@ function SignUp(props) {
           last_name : lastName,
           contact : contact,
           address:address
-      })      
-      console.log(response.data)
-      alert("User Created Successfully")
+        });
+        console.log(response.data);
+        alert("User Created Successfully");
       }catch(error){
-        alert('Registration Failed')
-        console.error(error)
+        alert('Registration Failed');
+        console.error(error);
       }
     } else {
       setErrors(errors);
@@ -81,51 +61,49 @@ function SignUp(props) {
     if (!password.trim()) {
       errors.password = "Password is required";
     } else if (password.length < 8) {
-      errors.password = "Password must be at least 8 characters long";
+      errors.password = "Password should be at least 8 characters long";
     }
     return errors;
   };
 
   return (
     <div className="page-container">
-      <img src={require("./login.gif")} alt="Signup GIF" className="signup-gif" />
-      <div className="signup-box">
-        <h1>Parking System Sign Up</h1>
+      <img src={require("./login.gif")} alt="Parking GIF" className="parking-gif" />
+      <div className="login-box">
+        <h2>Register</h2>
         <form onSubmit={handleSubmit}>
-          <label>
-            First Name:
-            <input type="text" value={firstName} onChange={handleFirstNameChange} />
+          <div className="input-box">
+            <input type="text" value={firstName} onChange={(event) => handleInputChange(event, setFirstName)} />
             {errors.firstName && <span className="error">{errors.firstName}</span>}
-          </label>
-          <label>
-            Last Name:
-            <input type="text" value={lastName} onChange={handleLastNameChange} />
+            <label className={firstName ? "input-filled" : ""}>First Name</label>
+          </div>
+          <div className="input-box">
+            <input type="text" value={lastName} onChange={(event) => handleInputChange(event, setLastName)} />
             {errors.lastName && <span className="error">{errors.lastName}</span>}
-          </label>
-          <label>
-            Email:
-            <input type="email" value={email} onChange={handleEmailChange} />
+            <label className={lastName ? "input-filled" : ""}>Last Name</label>
+          </div>
+          <div className="input-box">
+            <input type="email" value={email} onChange={(event) => handleInputChange(event, setEmail)} />
             {errors.email && <span className="error">{errors.email}</span>}
-          </label>
-          <label>
-            Contact:
-            <input type="tel" value={contact} onChange={handleContact} />
+            <label className={email ? "input-filled" : ""}>Email</label>
+          </div>
+          <div className="input-box">
+            <input type="text" value={contact} onChange={(event) => handleInputChange(event, setContact)} />
             {errors.contact && <span className="error">{errors.contact}</span>}
-          </label>
-          <label>
-            Password:
-            <input type="password" value={password} onChange={handlePasswordChange} />
+            <label className={contact ? "input-filled" : ""}>Contact</label>
+          </div>
+          <div className="input-box">
+            <input type="password" value={password} onChange={(event) => handleInputChange(event, setPassword)} />
             {errors.password && <span className="error">{errors.password}</span>}
-          </label>
-          <label>
-            Address:
-            <input type="text" value={address} onChange={handleAddressChange} />
+            <label className={password ? "input-filled" : ""}>Password</label>
+          </div>
+          <div className="input-box">
+            <input type="text" value={address} onChange={(event) => handleInputChange(event, setAddress)} />
             {errors.address && <span className="error">{errors.address}</span>}
-          </label>
-          <button type="submit" className="button">Sign Up</button>
-          
+            <label className={address ? "input-filled" : ""}>Address</label>
+          </div>
+          <button type="submit" className="btn">Sign Up</button>
         </form>
-        <Link to='/' className="button">Login</Link>
       </div>
     </div>
   );
