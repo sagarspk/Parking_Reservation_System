@@ -41,8 +41,6 @@ class Reservation(models.Model):
     end_time = models.DateTimeField(null=True)
     total_amount = models.DecimalField(max_digits=8, decimal_places=2, null=True)
 
-    def __str__(self):
-        return f"{self.user.username} - {self.parking_space.name}"
 
 
 class Payment(models.Model):

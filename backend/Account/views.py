@@ -33,6 +33,17 @@ class UserAuthenticated(APIView):
             return Response(user_data,status=status.HTTP_200_OK)
         return Response("User is not Authenticated",status=status.HTTP_401_UNAUTHORIZED)
 
+class ControllerAuthenticated(APIView):
+    def get(self,request):
+        user = request.user
+        if(user.is_authenticated):
+            user_data={'id':user.id,
+                        'email':user.email,
+                        'park_id':user.controller.park.id,
+                        'is_staff':user.is_staff}
+            return Response(user_data,status=status.HTTP_200_OK)
+        return Response("Controller is not Authenticated",status=status.HTTP_401_UNAUTHORIZED)
+
 class UserReserve(APIView):
     def put(self,request):
         customer_obj = Customer.objects.get(user_id = request.data['uid'])
@@ -118,12 +129,12 @@ class ControllerLogin(APIView):
         if serializer.is_valid():
             user = authenticate(username=valid_data['email'],password=valid_data['password'])
             if user:
-                if(request.data['is_staff'] != user.is_staff):
-                    return Response("User Login Detected, please login through user portal",status=status.HTTP_401_UNAUTHORIZED)
+                if(request.data['is_staff'] !="True"):
+                    return Response("Customer login detected, please login through customer portal",status=status.HTTP_401_UNAUTHORIZED)
                 login(request, user)
                 user_data={'id':user.id,
                            'email':user.email,
-                           'park_id':user.controller.park,
+                           'park_id':user.controller.park.id,
                            'is_staff':user.is_staff}
                 return Response(user_data, status=status.HTTP_202_ACCEPTED)
             else:

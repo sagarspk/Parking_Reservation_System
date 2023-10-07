@@ -9,6 +9,8 @@ from .models import (ParkingSpace,
 # from .serializers import ParkSerializer
 from django.utils import timezone
 from decimal import Decimal
+import qrcode
+import base64
 
 
 
@@ -52,7 +54,7 @@ class Reserve(APIView):
         
         park_obj.save()
         
-        reserve = Reservation(user=user,parking_space= park_obj , spot = spot,start_time=timezone.now(),end_time=None,total_amount=None)
+        reserve = Reservation(user=user,parking_space= park_obj , spot = spot ,start_time=timezone.now(),end_time=None,total_amount=None)
         reserve.save()
         return Response(data = reserve.id,status=status.HTTP_201_CREATED)
         
@@ -155,7 +157,31 @@ class ViewReservation(APIView):
         return Response(reserve_data,status=status.HTTP_200_OK);
 class GenerateReceipt(APIView):
     def post(self,request):
-        return 0
+        qr = qrcode.QRCode(
+            version=1,
+            error_correction=qrcode.constants.ERROR_CORRECT_L,
+            box_size=10,
+            border=4,
+        )
+        reserve_obj = Reservation.objects.get(id = request.data['id'])
+        reserve_data = {"Date":reserve_obj.start_time,
+                        "Location":reserve_obj.parking_space.name,
+                        "Amount":reserve_obj}
+        qr.add_data(reserve_data)
+        qr.make(fit=True)
+
+        # Create an image object from the QR code data
+        img = qr.make_image(fill_color="black", back_color="white")
+
+        image_bytes = img.tobytes()
+        image_base64 = base64.b64encode(image_bytes).decode('utf-8')
+
+        # Create a JSON response with the image data and other data
+        data = {
+            'image_base64': image_base64,
+            'other_data': 'Some other JSON-serializable data'
+        }
+        return Response(data)
 
 
 # def spotReservation(park_obj,spot,value):

@@ -63,6 +63,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'debug_toolbar',
     'rest_framework_simplejwt',
+    "qrcode",
     #ADDED APPS
     'Account.apps.AccountConfig',
     'Parking.apps.ParkingConfig',

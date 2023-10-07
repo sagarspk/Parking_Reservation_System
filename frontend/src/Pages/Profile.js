@@ -103,7 +103,6 @@ function Profile(props) {
           <tr>
             <th>Date</th>
             <th>Reservation ID</th>
-            <th>Vehicle No.</th>
             <th>Location</th>
             <th>Duration</th>
             <th>Charge</th>
@@ -115,11 +114,10 @@ function Profile(props) {
           <tr key={reserve.ID}>
             <td>{reserve.Date}</td>
             <td>{reserve.ID}</td>
-            <td></td>
             <td>{reserve.Location}</td>
             <td>{reserve.Duration}</td>
             <td>{reserve.Amount}</td>
-            <td><button>Generate</button></td>
+            <td><button onClick={props.handleGenerateQr} className="button" value={reserve.ID}>Generate</button></td>
           </tr>)}
         </tbody>
       </table>

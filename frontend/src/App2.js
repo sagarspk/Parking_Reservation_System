@@ -5,6 +5,7 @@ import Login from "./Pages/Login";
 import SignUp from "./Pages/SignUp";
 import ForgotPassword from "./Pages/ForgotPassword";
 import Dashboard from "./Pages/Dashboard";
+import ControllerDashboard from "./Pages/ControllerDashboard";
 // import OTP from './Pages/OTP';
 // import ChangePassword from './Pages/ChangePassword'
 import Profile from './Pages/Profile'
@@ -61,13 +62,13 @@ function App2() {
 
   const handleControllerAuthentication=async()=> {
     try {
-      const response = await apiInstance.get('user')
+      const response = await apiInstance.get('controller')
       if (response.status === 200) {
         console.log('User Found')
         console.log(response.data)
         setUser(response.data)
-        setIsLoggedIn(true);
-        navigate('/controller-dashboard');
+        setIsControllerLoggedIn(true);
+        navigate('/dashboard');
       } else {
         console.log('User Not Found')
         // navigate('/');
@@ -80,11 +81,12 @@ function App2() {
     }
   };
   useEffect(() => {
-    if(isControllerLoggedIn){
-      
-    }else{
-      handleAuthentication();
+    if(location.pathname=='/controller-login' || location.pathname=='/controller-dashboard'){
+      handleControllerAuthentication();
       handleView();
+    }else{
+      handleView();
+      handleAuthentication();
     }
     // handleParkingSpaces();
   }, []);
@@ -126,11 +128,11 @@ function App2() {
 
    const handleGenerateQr = async(event)=>{
     try{
-      const response = await axios.get('http://localhost:8000/generate',{
-        reservation_id : event.target.value
+      const response = await axios.post('http://localhost:8000/generate',{
+        'id' : event.target.value
       });
       if(response.status===202){
-
+        alert(response.data);
       }
     }catch(error){
       console.error("Error while generating QR");
@@ -162,6 +164,7 @@ function App2() {
         console.log("user logged out with null token")
         setUser({});
         setIsLoggedIn(false);
+        setIsControllerLoggedIn(false);
         window.location.reload();
         // navigate("/");
       }
@@ -194,8 +197,9 @@ function App2() {
         <Route path="/register" element={<SignUp />}/>
         <Route path="/forgotpassword" element={<ForgotPassword />}/>
         <Route path="/dashboard" element={<Dashboard parking={parking} user={user} isLoggedIn={isLoggedIn} setReservation={setReservation} parkingSpaces={parkingSpaces} selectedLocation={selectedLocation} setSelectedLocation={setSelectedLocation} handleParkingSpaces={handleParkingSpaces} handleAuthentication={handleAuthentication} />}/>
-        <Route path="/controller-dashboard" element={<Dashboard parking={parking} user={user} isLoggedIn={isLoggedIn} setReservation={setReservation} parkingSpaces={parkingSpaces} selectedLocation={selectedLocation} setSelectedLocation={setSelectedLocation} handleParkingSpaces={handleParkingSpaces} handleAuthentication={handleAuthentication} />}/>
-        <Route path="/profile" element={<Profile user={user} reservation={reservation} isLoggedIn={isLoggedIn} />}/>
+        {/* <Route path="/controller-dashboard" element={<ControllerDashboard user={user} isControllerLoggedIn={isControllerLoggedIn} setReservation={setReservation} parkingSpaces={parkingSpaces} selectedLocation={selectedLocation} setSelectedLocation={setSelectedLocation} handleParkingSpaces={handleParkingSpaces} handleAuthentication={handleControllerAuthentication} />}/> */}
+        <Route path="/profile" element={<Profile user={user} reservation={reservation} isLoggedIn={isLoggedIn} handleGenerateQr={handleGenerateQr} />}/>
+        {/* <Route path="/controller-profile" element={<ControllerProfile user={user} reservation={reservation} isLoggedIn={isControllerLoggedIn} />}/> */}
     </Routes>
   </>
   );

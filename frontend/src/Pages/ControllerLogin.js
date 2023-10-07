@@ -49,9 +49,9 @@ function ControllerLogin(props) {
         if(response.status===200){
           console.log(response.status);
           const data =response.data;
+          props.setControllerIsLoggedIn(true);
           props.setUser(data);
-          props.setIsLoggedIn(true);
-          navigate('/dashboard')
+          navigate('/controller-dashboard')
           // console.log(props.user)
           // props.handleLogin();
         }else{

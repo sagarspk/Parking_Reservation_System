@@ -1,7 +1,6 @@
 import React, { useEffect,useState } from "react";
 import { useNavigate, redirect, Link, useLocation  } from "react-router-dom";
 import ViewParking from "./ViewParking";
-// import KhaltiCheckout from 'khalti-checkout-web'
 import apiInstance from './axios';
 import axios from 'axios';
 import "./Dashboard.css";
@@ -60,60 +59,6 @@ function Dashboard(props) {
     }
   };
 
-  // const handleParkingSpace= async()=>{
-  //   // setSelectedLocation(event.target.value);
-  //   try{
-  //     const response = await axios.get('http://localhost:8000/view_parking_space');
-  //     console.log(response.data);
-  //     if(response.status===200){
-  //       setParkingSpaces(()=>response.data);
-  //     }
-  //   }catch(error){
-  //     console.error(error);
-
-  //   }
-  // }
-
-  
-  // const handleView= async()=>{
-    //   try{
-      //     const response = await axios.get('http://localhost:8000/view_parking');
-      //     if(response.status===200){
-  //       console.log(response.data[0].name);
-  //       setParking(()=>response.data);
-  //       console.log(parking[0].name);
-  //     }
-  //   }catch(error){
-    //     console.error(error);
-    //   }
-    // }
-    
-    // const handleReserveSpace = () => {
-      //   const updatedSpaces = [...parkingSpaces];
-      //   updatedSpaces[selectedSpace.rowIndex][selectedSpace.spaceIndex] = false;
-      //   setParkingSpaces(updatedSpaces);
-      //   setBalance(balance - 10);
-      //   setSelectedSpace(null);
-      // };
-
-      
-      // const handleFreeSpace = (rowIndex, spaceIndex) => {
-        //   const updatedSpaces = [...parkingSpaces];
-  //   updatedSpaces[rowIndex][spaceIndex] = true;
-  //   setParkingSpaces(updatedSpaces);
-  // };
-  
-  const handleSelectSpace = (event) => {
-    console.log(event.target);
-    console.log("Event target ar handle select");
-    setSelectedSpace(event.target.value);
-    // { props.parkingSpaces[event.target.value]? <button onClick={handleFree}> Free </button>: <button onClick={handleReserve}> Reserve </button> }
-    // const rfButton = document.getElementById('myButton');
-
-    // rfButton.addEventListener('click', (event) => {
-    //   rfButton.textContent = 
-    // });
-  };
 
   const handleReserve = async(event)=>{
     console.log(event.target.value);
@@ -163,14 +108,6 @@ function Dashboard(props) {
             console.log("success");
             props.handleParkingSpaces(selectedLocation);
             props.handleAuthentication();
-            // try{
-            //   const response2 = await axios.put('http://localhost:8000/user/unload',{
-            //     "id": props.user.id,
-            //     "balance": paisa
-            //   })
-            // }catch(error){
-            //   console.error("error while charging amount")
-            // }
           }
         }catch(error){
           console.error("Error from user reservation")
@@ -220,52 +157,11 @@ function Dashboard(props) {
               
             </div>
           </div>
-        //   <div>
-        //     <div className="parking-grid">
-        //       <div className="parking-location">
-        //         Parking Location: {selectedLocation}
-        //         <button className="change-location-button" onClick={handleChangeLocation}>Change Location</button>
-        //       </div>
-        //       {parkingSpaces.map((row, rowIndex) => (
-        //         <div key={rowIndex} className="parking-row">
-        //           {row.map((isAvailable, spaceIndex) => (
-        //             <div
-        //               key={spaceIndex}
-        //               className={`parking-space ${isAvailable ? 'available' : 'unavailable'} ${selectedSpace && selectedSpace.rowIndex === rowIndex && selectedSpace.spaceIndex === spaceIndex ? 'selected' : ''}`}
-        //               onClick={() => handleSelectSpace(rowIndex, spaceIndex)}
-        //             >
-        //               {rowIndex + 1}-{spaceIndex + 1}
-        //               {!isAvailable && (
-        //                 <button className="free-button" onClick={() => handleFreeSpace(rowIndex, spaceIndex)}>Free</button>
-        //               )}
-        //             </div>
-        //           ))}
-        //         </div>
-        //       ))}
-        //     </div>
-        //     <div className="reserve-section">
-        //       <div className="selected-and-reserve">
-        //         {selectedSpace ? (
-        //           <div className="selected-space">
-        //             Selected Space: {selectedSpace.rowIndex + 1}-{selectedSpace.spaceIndex + 1}
-        //           </div>
-        //         ) : (
-        //           <div className="select-space">
-        //             Please select a parking space.
-        //           </div>
-        //         )}
-        //         <button disabled={!selectedSpace} className="reserve-button" onClick={handleReserveSpace}>Reserve Space</button>
-        //       </div>
-        //     </div>
-        //   </div>
         )
         :
         <ViewParking parking={props.parking} handleSelectLocation={handleSelectLocation} />
         }
       </div>
-      {/* <div className="bottom-section">
-        <button className="logout-button" onClick={handleLogout}>Logout</button>
-      </div> */}
     </div>
   );
 }

@@ -1,6 +1,7 @@
 from django.urls import path
 from .views import (UserLogin,
                     UserAuthenticated,
+                    ControllerAuthenticated,
                     UserRegister,
                     ControllerLogin,
                     ControllerRegister,
@@ -17,6 +18,7 @@ from .views import (UserLogin,
 
 urlpatterns = [
     path('user', UserAuthenticated.as_view(), name='userAuthCheck'),
+    path('controller', ControllerAuthenticated.as_view(), name='controllerAuthCheck'),
     path('user/login', UserLogin.as_view(), name='userLogin'),
     path('user/load',LoadBalance.as_view()),
     path('user/unload',UnloadBalance.as_view()),
